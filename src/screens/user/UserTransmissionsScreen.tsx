@@ -1,19 +1,19 @@
+import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
+  Alert,
   FlatList,
   Image,
-  Alert
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
-import { useTheme } from '../../contexts/ThemeContext';
-import { useAuth } from '../../contexts/AuthContext';
 import { VideoPlayer } from '../../components/VideoPlayer';
+import { useAuth } from '../../contexts/AuthContext';
+import { useTheme } from '../../contexts/ThemeContext';
 
 export function UserTransmissionsScreen() {
   const { colors } = useTheme();
@@ -102,16 +102,7 @@ export function UserTransmissionsScreen() {
     }
   };
 
-  const handleShare = (transmission: any) => {
-    Alert.alert(
-      'Compartilhar',
-      `Compartilhar "${transmission.title}"?`,
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        { text: 'Compartilhar', onPress: () => console.log('Compartilhando:', transmission) }
-      ]
-    );
-  };
+  // Removed duplicate handleShare function
 
   const styles = StyleSheet.create({
     container: {

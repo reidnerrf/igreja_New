@@ -2,8 +2,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Vite/Expo web do not define __DEV__ at build-time the same way as React Native.
 // Prefer environment variable with sensible fallbacks for local dev.
-const isDev = (import.meta as any)?.env?.MODE === 'development' || (import.meta as any)?.env?.DEV || (globalThis as any)?.__DEV__;
-const envApiBase = (import.meta as any)?.env?.VITE_API_BASE_URL;
+const isDev = (globalThis as any)?.__DEV__ ?? false;
+const envApiBase = process.env.VITE_API_BASE_URL;
 export const API_BASE_URL = envApiBase || (isDev ? 'http://localhost:3001/api' : 'https://your-api.com/api');
 
 class ApiService {

@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import { Ionicons } from '@expo/vector-icons';
+import * as AuthSession from 'expo-auth-session';
+import * as Facebook from 'expo-auth-session/providers/facebook';
+import * as WebBrowser from 'expo-web-browser';
+import React, { useState } from 'react';
 import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
   Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  StyleSheet
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
-import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 import { apiService } from '../services/api';
-import * as WebBrowser from 'expo-web-browser';
-import * as AuthSession from 'expo-auth-session';
-import * as Facebook from 'expo-auth-session/providers/facebook';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -35,7 +35,7 @@ export function LoginScreen({ onLogin }: LoginScreenProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
 
-  const FB_APP_ID = ((import.meta as any)?.env?.VITE_FACEBOOK_APP_ID) || (process as any)?.env?.EXPO_PUBLIC_FACEBOOK_APP_ID || 'FB_APP_ID_PLACEHOLDER';
+  const FB_APP_ID = process.env.FACEBOOK_APP_ID || 'FB_APP_ID_PLACEHOLDER';
   const redirectUri = AuthSession.makeRedirectUri({ useProxy: true });
   const [fbRequest, fbResponse, fbPromptAsync] = Facebook.useAuthRequest({
     clientId: FB_APP_ID,

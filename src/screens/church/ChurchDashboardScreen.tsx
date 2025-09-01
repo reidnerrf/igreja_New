@@ -1,26 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import { Ionicons } from '@expo/vector-icons';
+import React, { useEffect, useState } from 'react';
 import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
+  Alert,
   RefreshControl,
-  Alert
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
-import { useTheme } from '../../contexts/ThemeContext';
-import { useAuth } from '../../contexts/AuthContext';
-import { Card } from '../../components/Card';
+import { CartesianGrid, Cell, Line, LineChart, Pie, PieChart, XAxis, YAxis } from 'recharts';
 import { PremiumBadge } from '../../components/PremiumBadge';
-import { CreateEventModal } from '../../components/modals/CreateEventModal';
 import { CreateAnnouncementModal } from '../../components/modals/CreateAnnouncementModal';
 import { CreateDonationModal } from '../../components/modals/CreateDonationModal';
+import { CreateEventModal } from '../../components/modals/CreateEventModal';
+import { ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from '../../components/ui/chart';
+import { useAuth } from '../../contexts/AuthContext';
+import { useTheme } from '../../contexts/ThemeContext';
 import { apiService } from '../../services/api';
 import { notificationService } from '../../services/notificationService';
-import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent } from '../../components/ui/chart';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, PieChart, Pie, Cell } from 'recharts@2.15.2';
 
 export function ChurchDashboardScreen() {
   const { colors } = useTheme();

@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ThemeProvider } from './src/contexts/ThemeContext';
+import React, { useEffect, useState } from 'react';
 import { AuthProvider } from './src/contexts/AuthContext';
-import { OnboardingScreen } from './src/screens/OnboardingScreen';
-import { LoginScreen } from './src/screens/LoginScreen';
+import { ThemeProvider } from './src/contexts/ThemeContext';
+import { useOfflineSync } from './src/hooks/useOfflineSync';
 import { ChurchRootNavigator } from './src/navigation/ChurchRootNavigator';
 import { UserRootNavigator } from './src/navigation/UserRootNavigator';
 import { LoadingScreen } from './src/screens/LoadingScreen';
-import { useOfflineSync } from './src/hooks/useOfflineSync';
+import { LoginScreen } from './src/screens/LoginScreen';
+import { OnboardingScreen } from './src/screens/OnboardingScreen';
 
 const Stack = createStackNavigator();
 
