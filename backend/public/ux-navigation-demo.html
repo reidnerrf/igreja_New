@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 ConnectFé - UX e Navegação Avançada</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/accessibility.css">
+    <link rel="stylesheet" href="css/command-palette.css">
+    <link rel="stylesheet" href="css/floating-actions.css">
+    <link rel="stylesheet" href="css/deep-links.css">
+    <link rel="stylesheet" href="css/onboarding.css">
+    <link rel="stylesheet" href="css/settings-center.css">
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--bg-secondary-aa);
+            color: var(--text-primary-aa);
+        }
+
+        .demo-header {
+            background: linear-gradient(135deg, var(--primary-aa) 0%, var(--secondary-aa) 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .demo-nav {
+            background: var(--bg-primary-aa);
+            padding: 1rem;
+            border-bottom: 2px solid var(--bg-tertiary-aa);
+        }
+
+        .demo-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .demo-nav a {
+            color: var(--text-primary-aa);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .demo-nav a:hover,
+        .demo-nav a:focus {
+            background: var(--bg-secondary-aa);
+            color: var(--primary-aa);
+        }
+
+        .demo-section {
+            padding: 2rem;
+            margin: 1rem;
+            background: var(--bg-primary-aa);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .demo-card {
+            background: var(--bg-secondary-aa);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 2px solid var(--bg-tertiary-aa);
+            transition: all 0.3s ease;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .demo-title {
+            color: var(--primary-aa);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .demo-description {
+            color: var(--text-secondary-aa);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .demo-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-demo {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: var(--primary-aa);
+            color: white;
+        }
+
+        .btn-demo:hover {
+            background: var(--primary-dark-aa);
+            transform: translateY(-2px);
+        }
+
+        .btn-demo:focus {
+            outline: 3px solid var(--focus-aa);
+            outline-offset: 2px;
+        }
+
+        .shortcut-hint {
+            background: var(--bg-tertiary-aa);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary-aa);
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .demo-nav ul {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="font-size-user-normal">
+    <!-- Header -->
+    <header class="demo-header">
+        <h1>🚀 ConnectFé - UX e Navegação Avançada</h1>
+        <p>Sistema completo de experiência do usuário e navegação inteligente</p>
+    </header>
+
+    <!-- Navegação -->
+    <nav class="demo-nav">
+        <ul>
+            <li><a href="#command-palette">🔍 Command Palette</a></li>
+            <li><a href="#floating-actions">🚀 Ações Flutuantes</a></li>
+            <li><a href="#deep-links">🔗 Deep Links</a></li>
+            <li><a href="#onboarding">🎓 Onboarding</a></li>
+            <li><a href="#settings">⚙️ Configurações</a></li>
+        </ul>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <main>
+        <!-- Command Palette -->
+        <section id="command-palette" class="demo-section">
+            <h2 class="demo-title">🔍 Command Palette</h2>
+            <p class="demo-description">
+                Pesquisa global e ações rápidas para navegação eficiente.
+            </p>
+
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <h3>⌘ Command Palette</h3>
+                    <p>Acesse rapidamente qualquer funcionalidade do sistema com busca inteligente.</p>
+                    <div class="demo-actions">
+                        <button class="btn-demo" onclick="openCommandPalette()">
+                            🔍 Abrir Command Palette
+                        </button>
+                    </div>
+                    <div class="shortcut-hint">
+                        Atalho: Ctrl/Cmd + K
+                    </div>
+                </div>
+
+                <div class="demo-card">
+                    <h3>🚀 Ações Rápidas</h3>
+                    <ul>
+                        <li>Criar evento</li>
+                        <li>Nova nota</li>
+                        <li>Configurar doação</li>
+                        <li>Buscar usuário</li>
+                        <li>Navegar para igreja</li>
+                    </ul>
+                </div>
+
+                <div class="demo-card">
+                    <h3>🔍 Busca Inteligente</h3>
+                    <ul>
+                        <li>Busca por nome</li>
+                        <li>Filtros por categoria</li>
+                        <li>Histórico de comandos</li>
+                        <li>Atalhos personalizados</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Floating Actions -->
+        <section id="floating-actions" class="demo-section">
+            <h2 class="demo-title">🚀 Ações Flutuantes (FAB)</h2>
+            <p class="demo-description">
+                Botões de ação flutuantes para criação rápida de conteúdo.
+            </p>
+
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <h3>➕ FAB Principal</h3>
+                    <p>Botão principal que expande para mostrar ações secundárias.</p>
+                    <div class="demo-actions">
+                        <button class="btn-demo" onclick="toggleFAB()">
+                            🚀 Toggle FAB
+                        </button>
+                    </div>
+                </div>
+
+                <div class="demo-card">
+                    <h3>🎯 Ações Disponíveis</h3>
+                    <ul>
+                        <li>📅 Criar Evento</li>
+                        <li>📝 Novo Post</li>
+                        <li>🙏 Nova Oração</li>
+                        <li>💰 Nova Doação</li>
+                        <li>📸 Upload de Foto</li>
+                    </ul>
+                </div>
+
+                <div class="demo-card">
+                    <h3>✨ Microinterações</h3>
+                    <ul>
+                        <li>Expansão suave</li>
+                        <li>Labels informativos</li>
+                        <li>Animações de entrada</li>
+                        <li>Feedback visual</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Deep Links -->
+        <section id="deep-links" class="demo-section">
+            <h2 class="demo-title">🔗 Deep Links</h2>
+            <p class="demo-description">
+                Navegação direta para eventos, transmissões e igrejas específicas.
+            </p>
+
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <h3>🎯 Eventos</h3>
+                    <p>Acesse diretamente eventos específicos via URL ou QR code.</p>
+                    <div class="demo-actions">
+                        <button class="btn-demo" onclick="openDeepLink('event')">
+                            📅 Abrir Evento
+                        </button>
+                    </div>
+                </div>
+
+                <div class="demo-card">
+                    <h3>📺 Transmissões</h3>
+                    <p>Entre direto nas transmissões ao vivo.</p>
+                    <div class="demo-actions">
+                        <button class="btn-demo" onclick="openDeepLink('live')">
+                            🔴 Transmissão
+                        </button>
+                    </div>
+                </div>
+
+                <div class="demo-card">
+                    <h3>⛪ Igrejas</h3>
+                    <p>Navegue diretamente para perfis de igrejas.</p>
+                    <div class="demo-actions">
+                        <button class="btn-demo" onclick="openDeepLink('church')">
+                            ⛪ Abrir Igreja
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Onboarding -->
+        <section id="onboarding" class="demo-section">
+            <h2 class="demo-title">🎓 Onboarding Guiado</h2>
+            <p class="demo-description">
+                Tour interativo e checklists iniciais para novos usuários.
+            </p>
+
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <h3>🎯 Tour Interativo</h3>
+                    <p>Guia passo a passo pelas principais funcionalidades.</p>
+                    <div class="demo-actions">
+                        <button class="btn-demo" onclick="startOnboarding()">
+                            🎓 Iniciar Tour
+                        </button>
+                    </div>
+                </div>
+
+                <div class="demo-card">
+                    <h3>✅ Checklists</h3>
+                    <ul>
+                        <li>Configurar perfil</li>
+                        <li>Adicionar foto</li>
+                        <li>Configurar notificações</li>
+                        <li>Primeiro check-in</li>
+                        <li>Primeira doação</li>
+                    </ul>
+                </div>
+
+                <div class="demo-card">
+                    <h3>📊 Progresso</h3>
+                    <ul>
+                        <li>Barra de progresso visual</li>
+                        <li>Conquistas desbloqueadas</li>
+                        <li>Recompensas por etapas</li>
+                        <li>Suporte contextual</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Settings -->
+        <section id="settings" class="demo-section">
+            <h2 class="demo-title">⚙️ Central de Configurações</h2>
+            <p class="demo-description">
+                Configurações claras e central de notificações por tópico.
+            </p>
+
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <h3>🔔 Notificações</h3>
+                    <p>Controle granular de notificações por categoria.</p>
+                    <div class="demo-actions">
+                        <button class="btn-demo" onclick="openSettings('notifications')">
+                            🔔 Configurar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="demo-card">
+                    <h3>🔒 Privacidade</h3>
+                    <p>Configurações de privacidade e visibilidade.</p>
+                    <div class="demo-actions">
+                        <button class="btn-demo" onclick="openSettings('privacy')">
+                            🔒 Configurar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="demo-card">
+                    <h3>🎨 Personalização</h3>
+                    <ul>
+                        <li>Tema da aplicação</li>
+                        <li>Tamanho da fonte</li>
+                        <li>Idioma</li>
+                        <li>Fuso horário</li>
+                        <li>Moeda</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Floating Action Button -->
+    <div class="floating-actions">
+        <button class="fab-secondary fab-event" onclick="createEvent()">
+            📅
+            <span class="fab-label">Criar Evento</span>
+        </button>
+        <button class="fab-secondary fab-post" onclick="createPost()">
+            📝
+            <span class="fab-label">Novo Post</span>
+        </button>
+        <button class="fab-secondary fab-prayer" onclick="createPrayer()">
+            🙏
+            <span class="fab-label">Nova Oração</span>
+        </button>
+        <button class="fab-secondary fab-donation" onclick="createDonation()">
+            💰
+            <span class="fab-label">Nova Doação</span>
+        </button>
+        <button class="fab-main" onclick="toggleFAB()">
+            <span class="fab-main-icon">+</span>
+        </button>
+    </div>
+
+    <!-- Command Palette -->
+    <div class="command-palette-overlay" id="commandPaletteOverlay">
+        <div class="command-palette" id="commandPalette">
+            <div class="command-palette-header">
+                <div class="command-palette-title">Command Palette</div>
+                <div class="command-palette-subtitle">Busque e execute ações rapidamente</div>
+            </div>
+            
+            <div class="command-palette-search">
+                <span class="command-palette-search-icon">🔍</span>
+                <input type="text" class="command-palette-input" placeholder="Digite para buscar..." id="commandPaletteInput">
+            </div>
+            
+            <div class="command-palette-commands">
+                <div class="command-palette-group">
+                    <div class="command-palette-group-title">Ações Rápidas</div>
+                    <div class="command-palette-command" onclick="executeCommand('create-event')">
+                        <div class="command-palette-command-icon">📅</div>
+                        <div class="command-palette-command-content">
+                            <div class="command-palette-command-title">Criar Evento</div>
+                            <div class="command-palette-command-description">Criar um novo evento na igreja</div>
+                        </div>
+                        <div class="command-palette-command-shortcut">⌘E</div>
+                    </div>
+                    <div class="command-palette-command" onclick="executeCommand('create-post')">
+                        <div class="command-palette-command-icon">📝</div>
+                        <div class="command-palette-command-content">
+                            <div class="command-palette-command-title">Novo Post</div>
+                            <div class="command-palette-command-description">Criar uma nova publicação</div>
+                        </div>
+                        <div class="command-palette-command-shortcut">⌘P</div>
+                    </div>
+                    <div class="command-palette-command" onclick="executeCommand('create-prayer')">
+                        <div class="command-palette-command-icon">🙏</div>
+                        <div class="command-palette-command-content">
+                            <div class="command-palette-command-title">Nova Oração</div>
+                            <div class="command-palette-command-description">Criar uma nova oração</div>
+                        </div>
+                        <div class="command-palette-command-shortcut">⌘O</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Deep Links Modal -->
+    <div class="deep-links-container" id="deepLinksContainer">
+        <div class="deep-link-modal">
+            <button class="deep-link-close" onclick="closeDeepLink()">×</button>
+            <div id="deepLinkContent">
+                <!-- Conteúdo dinâmico -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Onboarding Modal -->
+    <div class="onboarding-overlay" id="onboardingOverlay">
+        <div class="onboarding-container" id="onboardingContainer">
+            <!-- Conteúdo dinâmico -->
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="settings-center" id="settingsCenter">
+        <div class="settings-modal" id="settingsModal">
+            <!-- Conteúdo dinâmico -->
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Command Palette
+        function openCommandPalette() {
+            document.getElementById('commandPaletteOverlay').classList.add('show');
+            document.getElementById('commandPalette').classList.add('show');
+            document.getElementById('commandPaletteInput').focus();
+        }
+
+        function closeCommandPalette() {
+            document.getElementById('commandPaletteOverlay').classList.remove('show');
+            document.getElementById('commandPalette').classList.remove('show');
+        }
+
+        function executeCommand(command) {
+            console.log('Executando comando:', command);
+            closeCommandPalette();
+            showToast(`Comando executado: ${command}`, 'success');
+        }
+
+        // FAB
+        let fabExpanded = false;
+
+        function toggleFAB() {
+            const secondaryButtons = document.querySelectorAll('.fab-secondary');
+            
+            if (fabExpanded) {
+                secondaryButtons.forEach(btn => {
+                    btn.classList.remove('show');
+                    btn.classList.add('hide');
+                });
+                document.querySelector('.fab-main').classList.remove('active');
+            } else {
+                secondaryButtons.forEach(btn => {
+                    btn.classList.add('show');
+                    btn.classList.remove('hide');
+                });
+                document.querySelector('.fab-main').classList.add('active');
+            }
+            
+            fabExpanded = !fabExpanded;
+        }
+
+        // Deep Links
+        function openDeepLink(type) {
+            const container = document.getElementById('deepLinksContainer');
+            const content = document.getElementById('deepLinkContent');
+            
+            let html = '';
+            switch(type) {
+                case 'event':
+                    html = `
+                        <div class="deep-link-icon event">📅</div>
+                        <div class="deep-link-title">Evento Especial</div>
+                        <div class="deep-link-description">
+                            Acesse diretamente o evento "Culto de Domingo" com todas as informações e funcionalidades.
+                        </div>
+                        <div class="deep-link-actions">
+                            <button class="deep-link-btn deep-link-btn-primary" onclick="navigateToEvent()">
+                                🚀 Acessar Evento
+                            </button>
+                            <button class="deep-link-btn deep-link-btn-secondary" onclick="shareEvent()">
+                                📤 Compartilhar
+                            </button>
+                        </div>
+                    `;
+                    break;
+                case 'live':
+                    html = `
+                        <div class="deep-link-icon live">🔴</div>
+                        <div class="deep-link-title">Transmissão Ao Vivo</div>
+                        <div class="deep-link-description">
+                            Entre diretamente na transmissão ao vivo do culto de hoje.
+                        </div>
+                        <div class="deep-link-actions">
+                            <button class="deep-link-btn deep-link-btn-primary" onclick="joinLive()">
+                                🔴 Entrar na Transmissão
+                            </button>
+                            <button class="deep-link-btn deep-link-btn-secondary" onclick="scheduleReminder()">
+                                ⏰ Lembrete
+                            </button>
+                        </div>
+                    `;
+                    break;
+                case 'church':
+                    html = `
+                        <div class="deep-link-icon church">⛪</div>
+                        <div class="deep-link-title">Igreja ConnectFé</div>
+                        <div class="deep-link-description">
+                            Acesse o perfil completo da igreja com eventos, doações e informações.
+                        </div>
+                        <div class="deep-link-actions">
+                            <button class="deep-link-btn deep-link-btn-primary" onclick="openChurch()">
+                                ⛪ Abrir Igreja
+                            </button>
+                            <button class="deep-link-btn deep-link-btn-secondary" onclick="followChurch()">
+                                👥 Seguir
+                            </button>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            content.innerHTML = html;
+            container.classList.add('show');
+        }
+
+        function closeDeepLink() {
+            document.getElementById('deepLinksContainer').classList.remove('show');
+        }
+
+        // Onboarding
+        function startOnboarding() {
+            const overlay = document.getElementById('onboardingOverlay');
+            const container = document.getElementById('onboardingContainer');
+            
+            container.innerHTML = `
+                <div class="onboarding-header">
+                    <div class="onboarding-step">
+                        <div class="onboarding-step-number">Etapa 1 de 5</div>
+                        <div class="onboarding-step-title">Bem-vindo ao ConnectFé!</div>
+                        <div class="onboarding-step-subtitle">Vamos configurar sua conta em poucos passos</div>
+                    </div>
+                </div>
+                
+                <div class="onboarding-content">
+                    <div class="onboarding-step-content active">
+                        <div class="onboarding-welcome">
+                            <div class="onboarding-welcome-avatar">👋</div>
+                            <div class="onboarding-description">
+                                Parabéns por se juntar à comunidade ConnectFé! 
+                                Vamos configurar sua conta para que você aproveite ao máximo todas as funcionalidades.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="onboarding-navigation">
+                    <button class="onboarding-btn onboarding-btn-secondary" onclick="closeOnboarding()">
+                        Pular
+                    </button>
+                    <button class="onboarding-btn onboarding-btn-primary" onclick="nextOnboardingStep()">
+                        Começar
+                    </button>
+                </div>
+            `;
+            
+            overlay.classList.add('show');
+        }
+
+        function closeOnboarding() {
+            document.getElementById('onboardingOverlay').classList.remove('show');
+        }
+
+        function nextOnboardingStep() {
+            // Implementar navegação entre etapas
+            showToast('Próxima etapa do onboarding', 'info');
+        }
+
+        // Settings
+        function openSettings(tab) {
+            const center = document.getElementById('settingsCenter');
+            const modal = document.getElementById('settingsModal');
+            
+            modal.innerHTML = `
+                <div class="settings-header">
+                    <div class="settings-header-content">
+                        <div class="settings-title">Configurações</div>
+                        <div class="settings-subtitle">Personalize sua experiência no ConnectFé</div>
+                    </div>
+                    <button class="settings-close" onclick="closeSettings()">×</button>
+                </div>
+                
+                <div class="settings-tabs">
+                    <button class="settings-tab active" onclick="switchSettingsTab('notifications')">
+                        <span class="settings-tab-icon">🔔</span>
+                        Notificações
+                    </button>
+                    <button class="settings-tab" onclick="switchSettingsTab('privacy')">
+                        <span class="settings-tab-icon">🔒</span>
+                        Privacidade
+                    </button>
+                    <button class="settings-tab" onclick="switchSettingsTab('appearance')">
+                        <span class="settings-tab-icon">🎨</span>
+                        Aparência
+                    </button>
+                </div>
+                
+                <div class="settings-content">
+                    <div class="settings-tab-content active" id="notifications-tab">
+                        <div class="settings-section">
+                            <div class="settings-section-title">Configurações de Notificação</div>
+                            <div class="settings-section-description">
+                                Controle como e quando você recebe notificações
+                            </div>
+                            
+                            <div class="notification-settings">
+                                <div class="notification-category">
+                                    <div class="notification-category-header">
+                                        <div class="notification-category-icon">📅</div>
+                                        <div class="notification-category-title">Eventos</div>
+                                    </div>
+                                    <div class="notification-category-description">
+                                        Notificações sobre eventos, lembretes e atualizações
+                                    </div>
+                                    <div class="notification-methods">
+                                        <div class="notification-method">
+                                            <div class="notification-method-label">
+                                                <span class="notification-method-icon">📱</span>
+                                                Push
+                                            </div>
+                                            <div class="settings-switch active" onclick="toggleSwitch(this)"></div>
+                                        </div>
+                                        <div class="notification-method">
+                                            <div class="notification-method-label">
+                                                <span class="notification-method-icon">📧</span>
+                                                Email
+                                            </div>
+                                            <div class="settings-switch active" onclick="toggleSwitch(this)"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="settings-actions">
+                    <button class="settings-btn settings-btn-secondary" onclick="closeSettings()">
+                        Cancelar
+                    </button>
+                    <button class="settings-btn settings-btn-primary" onclick="saveSettings()">
+                        Salvar
+                    </button>
+                </div>
+            `;
+            
+            center.classList.add('show');
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsCenter').classList.remove('show');
+        }
+
+        function switchSettingsTab(tab) {
+            // Implementar troca de abas
+            showToast(`Aba alterada para: ${tab}`, 'info');
+        }
+
+        function toggleSwitch(element) {
+            element.classList.toggle('active');
+        }
+
+        function saveSettings() {
+            showToast('Configurações salvas com sucesso!', 'success');
+            closeSettings();
+        }
+
+        // Ações do FAB
+        function createEvent() {
+            showToast('📅 Criando novo evento...', 'info');
+        }
+
+        function createPost() {
+            showToast('📝 Criando novo post...', 'info');
+        }
+
+        function createPrayer() {
+            showToast('🙏 Criando nova oração...', 'info');
+        }
+
+        function createDonation() {
+            showToast('💰 Configurando nova doação...', 'info');
+        }
+
+        // Deep Link Actions
+        function navigateToEvent() {
+            showToast('🚀 Navegando para o evento...', 'success');
+            closeDeepLink();
+        }
+
+        function shareEvent() {
+            showToast('📤 Compartilhando evento...', 'info');
+        }
+
+        function joinLive() {
+            showToast('🔴 Entrando na transmissão...', 'success');
+            closeDeepLink();
+        }
+
+        function scheduleReminder() {
+            showToast('⏰ Lembrete agendado!', 'success');
+        }
+
+        function openChurch() {
+            showToast('⛪ Abrindo perfil da igreja...', 'success');
+            closeDeepLink();
+        }
+
+        function followChurch() {
+            showToast('👥 Seguindo igreja!', 'success');
+        }
+
+        // Sistema de toast
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span>${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => toast.classList.add('show'), 100);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => document.body.removeChild(toast), 400);
+            }, 3000);
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Atalho de teclado para Command Palette
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                    e.preventDefault();
+                    openCommandPalette();
+                }
+                
+                if (e.key === 'Escape') {
+                    closeCommandPalette();
+                    closeDeepLink();
+                    closeOnboarding();
+                    closeSettings();
+                }
+            });
+
+            // Fechar modais ao clicar fora
+            document.getElementById('commandPaletteOverlay').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeCommandPalette();
+                }
+            });
+
+            document.getElementById('deepLinksContainer').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeDeepLink();
+                }
+            });
+
+            document.getElementById('onboardingOverlay').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeOnboarding();
+                }
+            });
+
+            document.getElementById('settingsCenter').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeSettings();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

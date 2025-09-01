@@ -1,0 +1,31 @@
+# ConnectFé - Lista de Palavras Proibidas
+# Arquivo de configuração para moderação automática
+
+# Palavras de baixo calão
+palavrão1
+palavrão2
+palavrão3
+
+# Termos ofensivos
+ofensivo1
+ofensivo2
+ofensivo3
+
+# Spam comum
+spam1
+spam2
+spam3
+
+# Links suspeitos
+http://spam.com
+https://malware.com
+
+# Comandos de script
+<script>
+javascript:
+<iframe>
+
+# Caracteres especiais excessivos
+!!!!!
+?????
+*****

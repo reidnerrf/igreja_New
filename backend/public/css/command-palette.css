@@ -1,0 +1,369 @@
+/* ===== COMMAND PALETTE - CONNECTFÉ ===== */
+
+/* Overlay do Command Palette */
+.command-palette-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.command-palette-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Container principal */
+.command-palette {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  width: 90%;
+  max-width: 600px;
+  background: var(--bg-primary-aa);
+  border-radius: 16px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  z-index: 10000;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.command-palette.show {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+/* Header do Command Palette */
+.command-palette-header {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--bg-tertiary-aa);
+  position: relative;
+}
+
+.command-palette-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary-aa);
+  margin: 0 0 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.command-palette-title::before {
+  content: "⌘";
+  background: var(--primary-aa);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.command-palette-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-secondary-aa);
+  margin: 0;
+}
+
+/* Campo de busca */
+.command-palette-search {
+  position: relative;
+  margin: 16px 24px;
+}
+
+.command-palette-input {
+  width: 100%;
+  padding: 16px 20px 16px 48px;
+  border: 2px solid var(--bg-tertiary-aa);
+  border-radius: 12px;
+  font-size: 1.125rem;
+  background: var(--bg-secondary-aa);
+  color: var(--text-primary-aa);
+  transition: all 0.2s ease;
+}
+
+.command-palette-input:focus {
+  outline: none;
+  border-color: var(--primary-aa);
+  background: var(--bg-primary-aa);
+  box-shadow: 0 0 0 4px var(--focus-ring-aa);
+}
+
+.command-palette-input::placeholder {
+  color: var(--text-muted-aa);
+}
+
+.command-palette-search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted-aa);
+  font-size: 1.25rem;
+}
+
+/* Lista de comandos */
+.command-palette-commands {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 8px 0;
+}
+
+.command-palette-group {
+  margin-bottom: 16px;
+}
+
+.command-palette-group-title {
+  padding: 8px 24px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted-aa);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: var(--bg-secondary-aa);
+}
+
+.command-palette-command {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 2px solid transparent;
+}
+
+.command-palette-command:hover,
+.command-palette-command.selected {
+  background: var(--bg-secondary-aa);
+  border-left-color: var(--primary-aa);
+}
+
+.command-palette-command:active {
+  background: var(--bg-tertiary-aa);
+}
+
+.command-palette-command-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  background: var(--bg-tertiary-aa);
+  color: var(--primary-aa);
+  flex-shrink: 0;
+}
+
+.command-palette-command-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.command-palette-command-title {
+  font-weight: 600;
+  color: var(--text-primary-aa);
+  margin: 0 0 4px 0;
+  font-size: 1rem;
+}
+
+.command-palette-command-description {
+  font-size: 0.875rem;
+  color: var(--text-secondary-aa);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.command-palette-command-shortcut {
+  font-size: 0.75rem;
+  color: var(--text-muted-aa);
+  background: var(--bg-tertiary-aa);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: 'Monaco', 'Menlo', monospace;
+  flex-shrink: 0;
+}
+
+/* Resultados de busca */
+.command-palette-results {
+  padding: 16px 24px;
+  border-top: 1px solid var(--bg-tertiary-aa);
+}
+
+.command-palette-results-title {
+  font-size: 0.875rem;
+  color: var(--text-secondary-aa);
+  margin: 0 0 12px 0;
+}
+
+.command-palette-result-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 2px solid transparent;
+}
+
+.command-palette-result-item:hover {
+  background: var(--bg-secondary-aa);
+  border-color: var(--primary-aa);
+}
+
+.command-palette-result-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  background: var(--bg-tertiary-aa);
+  color: var(--primary-aa);
+  flex-shrink: 0;
+}
+
+.command-palette-result-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.command-palette-result-title {
+  font-weight: 600;
+  color: var(--text-primary-aa);
+  margin: 0 0 2px 0;
+  font-size: 0.875rem;
+}
+
+.command-palette-result-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-secondary-aa);
+  margin: 0;
+}
+
+/* Estados vazios */
+.command-palette-empty {
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.command-palette-empty-icon {
+  font-size: 3rem;
+  color: var(--text-muted-aa);
+  margin-bottom: 16px;
+}
+
+.command-palette-empty-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary-aa);
+  margin: 0 0 8px 0;
+}
+
+.command-palette-empty-description {
+  font-size: 0.875rem;
+  color: var(--text-secondary-aa);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Animações */
+@keyframes command-palette-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+@keyframes command-palette-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.command-palette.show {
+  animation: command-palette-slide-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.command-palette-overlay.show {
+  animation: command-palette-fade-in 0.3s ease;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .command-palette {
+    top: 10%;
+    width: 95%;
+    max-width: none;
+  }
+  
+  .command-palette-header {
+    padding: 16px 20px 12px;
+  }
+  
+  .command-palette-search {
+    margin: 12px 20px;
+  }
+  
+  .command-palette-input {
+    padding: 14px 18px 14px 44px;
+    font-size: 1rem;
+  }
+  
+  .command-palette-command {
+    padding: 10px 20px;
+  }
+  
+  .command-palette-command-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1.125rem;
+  }
+}
+
+/* Modo escuro */
+@media (prefers-color-scheme: dark) {
+  .command-palette {
+    background: #1a1a1a;
+    border: 1px solid #333;
+  }
+  
+  .command-palette-input {
+    background: #2a2a2a;
+    border-color: #444;
+    color: #fff;
+  }
+  
+  .command-palette-input:focus {
+    background: #1a1a1a;
+    border-color: var(--primary-aa);
+  }
+}
+
+/* Redução de motion */
+@media (prefers-reduced-motion: reduce) {
+  .command-palette,
+  .command-palette-overlay {
+    transition: none;
+    animation: none;
+  }
+}

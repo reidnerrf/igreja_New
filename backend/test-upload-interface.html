@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 Teste Completo de Upload - ConnectFé</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .upload-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .upload-section:hover {
+            border-color: #667eea;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.1);
+        }
+
+        .upload-section h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .upload-section h3 .icon {
+            font-size: 1.5rem;
+        }
+
+        .file-input-container {
+            border: 3px dashed #dee2e6;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .file-input-container:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .file-input-container.dragover {
+            border-color: #667eea;
+            background: #f0f4ff;
+            transform: scale(1.02);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-input-label {
+            font-size: 1.1rem;
+            color: #6c757d;
+            cursor: pointer;
+        }
+
+        .file-input-label:hover {
+            color: #667eea;
+        }
+
+        .file-info {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #868e96;
+        }
+
+        .upload-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .upload-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .progress-container {
+            margin: 20px 0;
+            display: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .preview-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .preview-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .preview-item:hover {
+            transform: scale(1.05);
+        }
+
+        .preview-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .preview-item .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .result-container {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .result-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .result-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .result-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .result-content {
+            margin-top: 15px;
+        }
+
+        .result-content img {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 5px;
+            margin: 5px;
+        }
+
+        .result-content a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .result-content a:hover {
+            text-decoration: underline;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 2px solid #e9ecef;
+        }
+
+        .stat-card h4 {
+            color: #495057;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #6c757d;
+            border-top: 1px solid #e9ecef;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .preview-container {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 Teste Completo de Upload</h1>
+            <p>Sistema ConnectFé - Teste todas as rotas de upload</p>
+        </div>
+
+        <div class="content">
+            <!-- Upload de Imagem de Perfil -->
+            <div class="upload-section">
+                <h3><span class="icon">👤</span> Upload de Imagem de Perfil</h3>
+                <div class="file-input-container" onclick="document.getElementById('profileInput').click()">
+                    <input type="file" id="profileInput" class="file-input" accept="image/*">
+                    <div class="file-input-label">📁 Clique aqui para selecionar uma imagem de perfil</div>
+                    <div class="file-info">Formatos: JPG, PNG, GIF, WebP | Máximo: 5MB</div>
+                </div>
+                <div class="preview-container" id="profilePreview"></div>
+                <button class="upload-btn" onclick="uploadProfile()" id="profileUploadBtn" disabled>📤 Enviar Imagem de Perfil</button>
+                <div class="progress-container" id="profileProgress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="profileProgressFill"></div>
+                    </div>
+                </div>
+                <div class="result-container" id="profileResult"></div>
+            </div>
+
+            <!-- Upload de Imagens de Posts -->
+            <div class="upload-section">
+                <h3><span class="icon">📝</span> Upload de Imagens de Posts</h3>
+                <div class="file-input-container" onclick="document.getElementById('postInput').click()">
+                    <input type="file" id="postInput" class="file-input" accept="image/*" multiple>
+                    <div class="file-input-label">📁 Clique aqui para selecionar imagens para o post</div>
+                    <div class="file-info">Formatos: JPG, PNG, GIF, WebP | Máximo: 10 arquivos, 5MB cada</div>
+                </div>
+                <div class="preview-container" id="postPreview"></div>
+                <button class="upload-btn" onclick="uploadPost()" id="postUploadBtn" disabled>📤 Enviar Imagens do Post</button>
+                <div class="progress-container" id="postProgress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="postProgressFill"></div>
+                    </div>
+                </div>
+                <div class="result-container" id="postResult"></div>
+            </div>
+
+            <!-- Upload de Imagens de Eventos -->
+            <div class="upload-section">
+                <h3><span class="icon">🎉</span> Upload de Imagens de Eventos</h3>
+                <div class="file-input-container" onclick="document.getElementById('eventInput').click()">
+                    <input type="file" id="eventInput" class="file-input" accept="image/*" multiple>
+                    <div class="file-input-label">📁 Clique aqui para selecionar imagens para o evento</div>
+                    <div class="file-info">Formatos: JPG, PNG, GIF, WebP | Máximo: 10 arquivos, 5MB cada</div>
+                </div>
+                <div class="preview-container" id="eventPreview"></div>
+                <button class="upload-btn" onclick="uploadEvent()" id="eventUploadBtn" disabled>📤 Enviar Imagens do Evento</button>
+                <div class="progress-container" id="eventProgress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="eventProgressFill"></div>
+                    </div>
+                </div>
+                <div class="result-container" id="eventResult"></div>
+            </div>
+
+            <!-- Upload de Imagens de Doações -->
+            <div class="upload-section">
+                <h3><span class="icon">💰</span> Upload de Imagens de Doações</h3>
+                <div class="file-input-container" onclick="document.getElementById('donationInput').click()">
+                    <input type="file" id="donationInput" class="file-input" accept="image/*" multiple>
+                    <div class="file-input-label">📁 Clique aqui para selecionar imagens para a campanha</div>
+                    <div class="file-info">Formatos: JPG, PNG, GIF, WebP | Máximo: 10 arquivos, 5MB cada</div>
+                </div>
+                <div class="preview-container" id="donationPreview"></div>
+                <button class="upload-btn" onclick="uploadDonation()" id="donationUploadBtn" disabled>📤 Enviar Imagens da Doação</button>
+                <div class="progress-container" id="donationProgress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="donationProgressFill"></div>
+                    </div>
+                </div>
+                <div class="result-container" id="donationResult"></div>
+            </div>
+
+            <!-- Upload de Imagem de Prêmio de Rifa -->
+            <div class="upload-section">
+                <h3><span class="icon">🎰</span> Upload de Imagem de Prêmio de Rifa</h3>
+                <div class="file-input-container" onclick="document.getElementById('raffleInput').click()">
+                    <input type="file" id="raffleInput" class="file-input" accept="image/*">
+                    <div class="file-input-label">📁 Clique aqui para selecionar imagem do prêmio</div>
+                    <div class="file-info">Formatos: JPG, PNG, GIF, WebP | Máximo: 5MB</div>
+                </div>
+                <div class="preview-container" id="rafflePreview"></div>
+                <button class="upload-btn" onclick="uploadRaffle()" id="raffleUploadBtn" disabled>📤 Enviar Imagem do Prêmio</button>
+                <div class="progress-container" id="raffleProgress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="raffleProgressFill"></div>
+                    </div>
+                </div>
+                <div class="result-container" id="raffleResult"></div>
+            </div>
+
+            <!-- Estatísticas -->
+            <div class="stats">
+                <div class="stat-card">
+                    <h4>Total de Uploads</h4>
+                    <div class="stat-value" id="totalUploads">0</div>
+                </div>
+                <div class="stat-card">
+                    <h4>Arquivos Enviados</h4>
+                    <div class="stat-value" id="totalFiles">0</div>
+                </div>
+                <div class="stat-card">
+                    <h4>Total de Bytes</h4>
+                    <div class="stat-value" id="totalBytes">0</div>
+                </div>
+                <div class="stat-card">
+                    <h4>Taxa de Sucesso</h4>
+                    <div class="stat-value" id="successRate">100%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🧪 Interface de teste para o sistema de upload ConnectFé</p>
+            <p>Servidor: <span id="serverStatus">Conectando...</span></p>
+        </div>
+    </div>
+
+    <script>
+        // Configurações
+        const API_BASE = 'http://localhost:3002';
+        let stats = {
+            totalUploads: 0,
+            totalFiles: 0,
+            totalBytes: 0,
+            successfulUploads: 0,
+            failedUploads: 0
+        };
+
+        // Verificar status do servidor
+        async function checkServerStatus() {
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                const data = await response.json();
+                document.getElementById('serverStatus').textContent = '🟢 Conectado';
+                document.getElementById('serverStatus').style.color = '#28a745';
+            } catch (error) {
+                document.getElementById('serverStatus').textContent = '🔴 Desconectado';
+                document.getElementById('serverStatus').style.color = '#dc3545';
+            }
+        }
+
+        // Configurar preview de arquivos
+        function setupFilePreview(inputId, previewId, uploadBtnId, multiple = false) {
+            const input = document.getElementById(inputId);
+            const preview = document.getElementById(previewId);
+            const uploadBtn = document.getElementById(uploadBtnId);
+
+            input.addEventListener('change', function(e) {
+                preview.innerHTML = '';
+                const files = Array.from(e.target.files);
+                
+                if (files.length === 0) {
+                    uploadBtn.disabled = true;
+                    return;
+                }
+
+                files.forEach((file, index) => {
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const previewItem = document.createElement('div');
+                            previewItem.className = 'preview-item';
+                            previewItem.innerHTML = `
+                                <img src="${e.target.result}" alt="Preview ${index + 1}">
+                                <button class="remove-btn" onclick="removeFile('${inputId}', ${index})">×</button>
+                            `;
+                            preview.appendChild(previewItem);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+
+                uploadBtn.disabled = false;
+            });
+        }
+
+        // Remover arquivo
+        function removeFile(inputId, index) {
+            const input = document.getElementById(inputId);
+            const dt = new DataTransfer();
+            const files = Array.from(input.files);
+            
+            files.splice(index, 1);
+            files.forEach(file => dt.items.add(file));
+            
+            input.files = dt.files;
+            input.dispatchEvent(new Event('change'));
+        }
+
+        // Função genérica de upload
+        async function uploadFiles(endpoint, files, progressId, resultId, uploadBtnId) {
+            const formData = new FormData();
+            const progressContainer = document.getElementById(progressId);
+            const progressFill = document.getElementById(progressId.replace('Progress', 'ProgressFill'));
+            const resultContainer = document.getElementById(resultId);
+            const uploadBtn = document.getElementById(uploadBtnId);
+
+            // Adicionar arquivos ao FormData
+            Array.from(files).forEach(file => {
+                if (endpoint === 'profile') {
+                    formData.append('profileImage', file);
+                } else if (endpoint === 'raffle-prize') {
+                    formData.append('prizeImage', file);
+                } else {
+                    formData.append('images', file);
+                }
+            });
+
+            // Mostrar progresso
+            progressContainer.style.display = 'block';
+            uploadBtn.disabled = true;
+            resultContainer.style.display = 'none';
+
+            try {
+                // Simular progresso
+                let progress = 0;
+                const progressInterval = setInterval(() => {
+                    progress += Math.random() * 20;
+                    if (progress > 90) progress = 90;
+                    progressFill.style.width = progress + '%';
+                }, 200);
+
+                // Fazer upload
+                const response = await fetch(`${API_BASE}/api/upload/${endpoint}`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                clearInterval(progressInterval);
+                progressFill.style.width = '100%';
+
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // Atualizar estatísticas
+                    stats.totalUploads++;
+                    stats.successfulUploads++;
+                    if (data.files) {
+                        stats.totalFiles += data.files.length;
+                        stats.totalBytes += data.files.reduce((sum, f) => sum + f.size, 0);
+                    } else if (data.file) {
+                        stats.totalFiles++;
+                        stats.totalBytes += data.file.size;
+                    }
+                    updateStats();
+
+                    // Mostrar resultado
+                    showResult(resultId, data, 'success');
+                } else {
+                    const errorData = await response.json();
+                    stats.totalUploads++;
+                    stats.failedUploads++;
+                    updateStats();
+                    showResult(resultId, { error: errorData.error || 'Erro desconhecido' }, 'error');
+                }
+            } catch (error) {
+                stats.totalUploads++;
+                stats.failedUploads++;
+                updateStats();
+                showResult(resultId, { error: 'Erro de conexão: ' + error.message }, 'error');
+            }
+
+            // Esconder progresso após 2 segundos
+            setTimeout(() => {
+                progressContainer.style.display = 'none';
+                progressFill.style.width = '0%';
+                uploadBtn.disabled = false;
+            }, 2000);
+        }
+
+        // Mostrar resultado
+        function showResult(resultId, data, type) {
+            const resultContainer = document.getElementById(resultId);
+            resultContainer.style.display = 'block';
+            
+            if (type === 'success') {
+                resultContainer.className = 'result-container result-success';
+                
+                if (data.files) {
+                    resultContainer.innerHTML = `
+                        <h4>✅ ${data.message}</h4>
+                        <div class="result-content">
+                            <p><strong>Arquivos enviados:</strong> ${data.files.length}</p>
+                            <p><strong>URLs:</strong></p>
+                            ${data.files.map(f => `
+                                <div>
+                                    <img src="${f.url}" alt="${f.originalName}">
+                                    <br>
+                                    <a href="${f.url}" target="_blank">${f.originalName}</a>
+                                    <br>
+                                    <small>${(f.size / 1024).toFixed(2)} KB</small>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                } else if (data.file) {
+                    resultContainer.innerHTML = `
+                        <h4>✅ ${data.message}</h4>
+                        <div class="result-content">
+                            <p><strong>Arquivo:</strong> ${data.file.originalName}</p>
+                            <p><strong>URL:</strong> <a href="${data.file.url}" target="_blank">${data.file.url}</a></p>
+                            <p><strong>Tamanho:</strong> ${(data.file.size / 1024).toFixed(2)} KB</p>
+                        </div>
+                    `;
+                }
+            } else {
+                resultContainer.className = 'result-container result-error';
+                resultContainer.innerHTML = `
+                    <h4>❌ Erro no Upload</h4>
+                    <div class="result-content">
+                        <p>${data.error}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Funções específicas de upload
+        function uploadProfile() {
+            const input = document.getElementById('profileInput');
+            if (input.files.length > 0) {
+                uploadFiles('profile', input.files, 'profileProgress', 'profileResult', 'profileUploadBtn');
+            }
+        }
+
+        function uploadPost() {
+            const input = document.getElementById('postInput');
+            if (input.files.length > 0) {
+                uploadFiles('post', input.files, 'postProgress', 'postResult', 'postUploadBtn');
+            }
+        }
+
+        function uploadEvent() {
+            const input = document.getElementById('eventInput');
+            if (input.files.length > 0) {
+                uploadFiles('event', input.files, 'eventProgress', 'eventResult', 'eventUploadBtn');
+            }
+        }
+
+        function uploadDonation() {
+            const input = document.getElementById('donationInput');
+            if (input.files.length > 0) {
+                uploadFiles('donation', input.files, 'donationProgress', 'donationResult', 'donationUploadBtn');
+            }
+        }
+
+        function uploadRaffle() {
+            const input = document.getElementById('raffleInput');
+            if (input.files.length > 0) {
+                uploadFiles('raffle-prize', input.files, 'raffleProgress', 'raffleResult', 'raffleUploadBtn');
+            }
+        }
+
+        // Atualizar estatísticas
+        function updateStats() {
+            document.getElementById('totalUploads').textContent = stats.totalUploads;
+            document.getElementById('totalFiles').textContent = stats.totalFiles;
+            document.getElementById('totalBytes').textContent = (stats.totalBytes / 1024 / 1024).toFixed(2) + ' MB';
+            
+            const successRate = stats.totalUploads > 0 ? 
+                Math.round((stats.successfulUploads / stats.totalUploads) * 100) : 100;
+            document.getElementById('successRate').textContent = successRate + '%';
+        }
+
+        // Configurar drag and drop
+        function setupDragAndDrop() {
+            const containers = document.querySelectorAll('.file-input-container');
+            
+            containers.forEach(container => {
+                container.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    container.classList.add('dragover');
+                });
+                
+                container.addEventListener('dragleave', function(e) {
+                    e.preventDefault();
+                    container.classList.remove('dragover');
+                });
+                
+                container.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    container.classList.remove('dragover');
+                    
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0) {
+                        // Encontrar o input correspondente
+                        const inputId = container.querySelector('input').id;
+                        const input = document.getElementById(inputId);
+                        
+                        if (input.multiple) {
+                            input.files = files;
+                        } else {
+                            input.files = [files[0]];
+                        }
+                        
+                        input.dispatchEvent(new Event('change'));
+                    }
+                });
+            });
+        }
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configurar previews
+            setupFilePreview('profileInput', 'profilePreview', 'profileUploadBtn');
+            setupFilePreview('postInput', 'postPreview', 'postUploadBtn', true);
+            setupFilePreview('eventInput', 'eventPreview', 'eventUploadBtn', true);
+            setupFilePreview('donationInput', 'donationPreview', 'donationUploadBtn', true);
+            setupFilePreview('raffleInput', 'rafflePreview', 'raffleUploadBtn');
+            
+            // Configurar drag and drop
+            setupDragAndDrop();
+            
+            // Verificar status do servidor
+            checkServerStatus();
+            setInterval(checkServerStatus, 10000); // Verificar a cada 10 segundos
+            
+            // Atualizar estatísticas iniciais
+            updateStats();
+        });
+    </script>
+</body>
+</html>

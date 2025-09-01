@@ -1,0 +1,382 @@
+/* ===== FLOATING ACTION BUTTONS - CONNECTFÉ ===== */
+
+/* Container principal das ações flutuantes */
+.floating-actions {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+/* Botão principal (FAB) */
+.fab-main {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--primary-aa);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  box-shadow: 0 8px 24px rgba(44, 90, 160, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1002;
+}
+
+.fab-main:hover {
+  background: var(--primary-dark-aa);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 12px 32px rgba(44, 90, 160, 0.6);
+}
+
+.fab-main:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.fab-main:focus {
+  outline: none;
+  box-shadow: 0 8px 24px rgba(44, 90, 160, 0.4), 0 0 0 4px var(--focus-ring-aa);
+}
+
+/* Ícone do FAB principal */
+.fab-main-icon {
+  transition: transform 0.3s ease;
+}
+
+.fab-main.active .fab-main-icon {
+  transform: rotate(45deg);
+}
+
+/* Botões secundários */
+.fab-secondary {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--bg-primary-aa);
+  color: var(--text-primary-aa);
+  border: 2px solid var(--bg-tertiary-aa);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  transform: scale(0.8) translateX(20px);
+  pointer-events: none;
+}
+
+.fab-secondary.show {
+  opacity: 1;
+  transform: scale(1) translateX(0);
+  pointer-events: all;
+}
+
+.fab-secondary:hover {
+  background: var(--bg-secondary-aa);
+  border-color: var(--primary-aa);
+  color: var(--primary-aa);
+  transform: scale(1.1) translateX(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.fab-secondary:active {
+  transform: scale(0.95) translateX(0);
+}
+
+.fab-secondary:focus {
+  outline: none;
+  border-color: var(--focus-aa);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15), 0 0 0 3px var(--focus-ring-aa);
+}
+
+/* Labels dos botões secundários */
+.fab-label {
+  position: absolute;
+  right: 72px;
+  background: var(--bg-primary-aa);
+  color: var(--text-primary-aa);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--bg-tertiary-aa);
+  opacity: 0;
+  transform: translateX(10px);
+  transition: all 0.2s ease;
+  pointer-events: none;
+}
+
+.fab-label::after {
+  content: '';
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid var(--bg-primary-aa);
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+}
+
+.fab-secondary:hover .fab-label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Variantes de cor para diferentes ações */
+.fab-event {
+  background: var(--success-aa);
+  color: white;
+  border-color: var(--success-aa);
+}
+
+.fab-event:hover {
+  background: #155724;
+  border-color: #155724;
+  color: white;
+}
+
+.fab-post {
+  background: var(--info-aa);
+  color: white;
+  border-color: var(--info-aa);
+}
+
+.fab-post:hover {
+  background: #0a3d4a;
+  border-color: #0a3d4a;
+  color: white;
+}
+
+.fab-prayer {
+  background: var(--warning-aa);
+  color: white;
+  border-color: var(--warning-aa);
+}
+
+.fab-prayer:hover {
+  background: #6d4c00;
+  border-color: #6d4c00;
+  color: white;
+}
+
+.fab-donation {
+  background: var(--secondary-aa);
+  color: white;
+  border-color: var(--secondary-aa);
+}
+
+.fab-donation:hover {
+  background: var(--secondary-dark-aa);
+  border-color: var(--secondary-dark-aa);
+  color: white;
+}
+
+/* Animações de entrada */
+@keyframes fab-slide-in {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+  }
+}
+
+@keyframes fab-bounce-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.fab-secondary.show {
+  animation: fab-slide-in 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fab-main {
+  animation: fab-bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Estados de carregamento */
+.fab-loading {
+  position: relative;
+  overflow: hidden;
+}
+
+.fab-loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: fab-shine 1.5s infinite;
+}
+
+@keyframes fab-shine {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Estados desabilitados */
+.fab-main:disabled,
+.fab-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.fab-main:disabled:hover,
+.fab-secondary:disabled:hover {
+  transform: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .floating-actions {
+    bottom: 16px;
+    right: 16px;
+    gap: 12px;
+  }
+  
+  .fab-main {
+    width: 56px;
+    height: 56px;
+    font-size: 1.25rem;
+  }
+  
+  .fab-secondary {
+    width: 48px;
+    height: 48px;
+    font-size: 1.125rem;
+  }
+  
+  .fab-label {
+    right: 64px;
+    font-size: 0.75rem;
+    padding: 6px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .floating-actions {
+    bottom: 12px;
+    right: 12px;
+    gap: 8px;
+  }
+  
+  .fab-main {
+    width: 52px;
+    height: 52px;
+    font-size: 1.125rem;
+  }
+  
+  .fab-secondary {
+    width: 44px;
+    height: 44px;
+    font-size: 1rem;
+  }
+  
+  .fab-label {
+    display: none; /* Ocultar labels em telas muito pequenas */
+  }
+}
+
+/* Modo escuro */
+@media (prefers-color-scheme: dark) {
+  .fab-secondary {
+    background: #2a2a2a;
+    border-color: #444;
+    color: #fff;
+  }
+  
+  .fab-label {
+    background: #2a2a2a;
+    border-color: #444;
+    color: #fff;
+  }
+  
+  .fab-label::after {
+    border-left-color: #2a2a2a;
+  }
+}
+
+/* Redução de motion */
+@media (prefers-reduced-motion: reduce) {
+  .fab-main,
+  .fab-secondary,
+  .fab-label {
+    transition: none;
+    animation: none;
+  }
+  
+  .fab-main:hover,
+  .fab-secondary:hover {
+    transform: none;
+  }
+}
+
+/* Acessibilidade */
+.fab-main:focus-visible,
+.fab-secondary:focus-visible {
+  outline: 3px solid var(--focus-aa);
+  outline-offset: 2px;
+}
+
+/* Estados de hover para dispositivos touch */
+@media (hover: none) {
+  .fab-main:hover,
+  .fab-secondary:hover {
+    transform: none;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+  
+  .fab-secondary:hover .fab-label {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+}
+
+/* Animações de saída */
+.fab-secondary.hide {
+  animation: fab-slide-out 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fab-slide-out {
+  to {
+    opacity: 0;
+    transform: scale(0.8) translateX(20px);
+  }
+}

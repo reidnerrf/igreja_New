@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConnectFé - Funcionalidades Católicas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .feature-description {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .feature-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+
+        .btn-success {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #27ae60;
+            transform: scale(1.05);
+        }
+
+        .btn-warning {
+            background: #f39c12;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: #e67e22;
+            transform: scale(1.05);
+        }
+
+        .btn-info {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: #138496;
+            transform: scale(1.05);
+        }
+
+        .demo-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .demo-section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .demo-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .demo-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+        }
+
+        .demo-item h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .demo-item p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-active {
+            background: #2ecc71;
+        }
+
+        .status-pending {
+            background: #f39c12;
+        }
+
+        .status-inactive {
+            background: #e74c3c;
+        }
+
+        .achievement-showcase {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            color: #8b4513;
+            margin-bottom: 30px;
+        }
+
+        .achievement-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .achievement-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .achievement-description {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        .confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .streak-counter {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .streak-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .streak-label {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .demo-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⛪ ConnectFé</h1>
+            <p>Plataforma Católica de Conexão e Engajamento Espiritual</p>
+        </div>
+
+        <!-- Showcase de Conquista -->
+        <div class="achievement-showcase" id="achievementShowcase">
+            <div class="achievement-icon">🏆</div>
+            <div class="achievement-title">Conquista Desbloqueada!</div>
+            <div class="achievement-description">Você completou o tour das funcionalidades católicas!</div>
+            <button class="btn btn-success" onclick="triggerAchievement()">🎉 Celebrar Conquista</button>
+        </div>
+
+        <!-- Contador de Streak -->
+        <div class="streak-counter">
+            <div class="streak-number" id="streakNumber">7</div>
+            <div class="streak-label">Dias Consecutivos de Atividade</div>
+            <button class="btn btn-warning" onclick="incrementStreak()">➕ Incrementar Streak</button>
+        </div>
+
+        <!-- Grid de Funcionalidades -->
+        <div class="features-grid">
+            <div class="feature-card" onclick="showFeatureDetails('themes')">
+                <div class="feature-icon">🎨</div>
+                <div class="feature-title">Temas Sazonais Católicos</div>
+                <div class="feature-description">
+                    Temas automáticos para datas especiais como Natal, Páscoa, Quaresma, Corpus Christi e outras celebrações católicas.
+                </div>
+                <div class="feature-actions">
+                    <button class="btn btn-primary">Ver Temas</button>
+                    <button class="btn btn-info">Configurar</button>
+                </div>
+            </div>
+
+            <div class="feature-card" onclick="showFeatureDetails('branding')">
+                <div class="feature-icon">🏛️</div>
+                <div class="feature-title">Branding da Igreja</div>
+                <div class="feature-description">
+                    Personalize cores, logotipo e imagens de capa para refletir a identidade visual da sua paróquia.
+                </div>
+                <div class="feature-actions">
+                    <button class="btn btn-primary">Personalizar</button>
+                    <button class="btn btn-success">Aplicar</button>
+                </div>
+            </div>
+
+            <div class="feature-card" onclick="showFeatureDetails('quests')">
+                <div class="feature-icon">🎯</div>
+                <div class="feature-title">Quests e Desafios</div>
+                <div class="feature-description">
+                    Sistema de missões semanais com barras de progresso para engajamento espiritual contínuo.
+                </div>
+                <div class="feature-actions">
+                    <button class="btn btn-primary">Ver Quests</button>
+                    <button class="btn btn-warning">Participar</button>
+                </div>
+            </div>
+
+            <div class="feature-card" onclick="showFeatureDetails('streaks')">
+                <div class="feature-icon">🔥</div>
+                <div class="feature-title">Streak Diário</div>
+                <div class="feature-description">
+                    Mantenha sequências de atividades espirituais com lembretes e sistema de recompensas.
+                </div>
+                <div class="feature-actions">
+                    <button class="btn btn-primary">Ver Streak</button>
+                    <button class="btn btn-success">Check-in</button>
+                </div>
+            </div>
+
+            <div class="feature-card" onclick="showFeatureDetails('animations')">
+                <div class="feature-icon">✨</div>
+                <div class="feature-title">Animações de Conquista</div>
+                <div class="feature-description">
+                    Celebrações com confetes, sons leves e cartões de badge para marcar suas conquistas.
+                </div>
+                <div class="feature-actions">
+                    <button class="btn btn-primary">Testar</button>
+                    <button class="btn btn-info">Configurar</button>
+                </div>
+            </div>
+
+            <div class="feature-card" onclick="showFeatureDetails('notifications')">
+                <div class="feature-icon">🔔</div>
+                <div class="feature-title">Notificações com Ações Rápidas</div>
+                <div class="feature-description">
+                    Confirme presença, doe ou ore diretamente das notificações sem abrir o app.
+                </div>
+                <div class="feature-actions">
+                    <button class="btn btn-primary">Configurar</button>
+                    <button class="btn btn-success">Testar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção de Demonstração -->
+        <div class="demo-section">
+            <h2>🎬 Demonstração das Funcionalidades</h2>
+            <div class="demo-content">
+                <div class="demo-item">
+                    <h3>🎨 Temas Sazonais</h3>
+                    <p><span class="status-indicator status-active"></span>Ativo: Natal</p>
+                    <p>Cores: Vermelho e Dourado</p>
+                    <p>Próximo tema: Quaresma (em 45 dias)</p>
+                    <button class="btn btn-info" onclick="showSeasonalThemes()">Ver Calendário</button>
+                </div>
+
+                <div class="demo-item">
+                    <h3>🏛️ Branding</h3>
+                    <p><span class="status-indicator status-active"></span>Personalizado</p>
+                    <p>Cores da igreja aplicadas</p>
+                    <p>Logotipo carregado</p>
+                    <button class="btn btn-primary" onclick="customizeBranding()">Editar</button>
+                </div>
+
+                <div class="demo-item">
+                    <h3>🎯 Quests Ativas</h3>
+                    <p><span class="status-indicator status-active"></span>3 quests disponíveis</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 65%"></div>
+                    </div>
+                    <p>Progresso: 65%</p>
+                    <button class="btn btn-success" onclick="viewQuests()">Ver Quests</button>
+                </div>
+
+                <div class="demo-item">
+                    <h3>🔥 Streak Atual</h3>
+                    <p><span class="status-indicator status-active"></span>7 dias consecutivos</p>
+                    <p>Próximo marco: 14 dias</p>
+                    <p>Recompensa: +50 pontos</p>
+                    <button class="btn btn-warning" onclick="viewStreakDetails()">Detalhes</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção de Onboarding -->
+        <div class="demo-section">
+            <h2>🚀 Onboarding Católico</h2>
+            <div class="demo-content">
+                <div class="demo-item">
+                    <h3>📋 Etapas Completadas</h3>
+                    <p><span class="status-indicator status-active"></span>6 de 9 etapas</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 67%"></div>
+                    </div>
+                    <p>Progresso: 67%</p>
+                    <button class="btn btn-primary" onclick="continueOnboarding()">Continuar</button>
+                </div>
+
+                <div class="demo-item">
+                    <h3>⛪ Declaração de Fé</h3>
+                    <p><span class="status-indicator status-active"></span>Católico confirmado</p>
+                    <p>Batismo: Registrado</p>
+                    <p>Confirmação: Pendente</p>
+                    <button class="btn btn-info" onclick="updateFaithInfo()">Atualizar</button>
+                </div>
+
+                <div class="demo-item">
+                    <h3>🎨 Preferências</h3>
+                    <p><span class="status-indicator status-active"></span>Configuradas</p>
+                    <p>Tema: Sazonal</p>
+                    <p>Idioma: Português</p>
+                    <button class="btn btn-success" onclick="customizePreferences()">Personalizar</button>
+                </div>
+
+                <div class="demo-item">
+                    <h3>🔔 Notificações</h3>
+                    <p><span class="status-indicator status-active"></span>Ativas</p>
+                    <p>Lembretes: Missa, Confissão</p>
+                    <p>Quiet Hours: 22h-08h</p>
+                    <button class="btn btn-warning" onclick="configureNotifications()">Configurar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Canvas para Confetes -->
+    <canvas class="confetti-canvas" id="confettiCanvas"></canvas>
+
+    <!-- Modal de Detalhes -->
+    <div id="featureModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modalContent">
+                <!-- Conteúdo será inserido dinamicamente -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variáveis globais
+        let currentStreak = 7;
+        let confettiActive = false;
+
+        // Função para mostrar detalhes das funcionalidades
+        function showFeatureDetails(feature) {
+            const modal = document.getElementById('featureModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            const featureDetails = {
+                themes: {
+                    title: '🎨 Temas Sazonais Católicos',
+                    content: `
+                        <h3>Funcionalidades:</h3>
+                        <ul>
+                            <li><strong>Advento:</strong> Azul, preparação para o Natal</li>
+                            <li><strong>Natal:</strong> Vermelho e dourado, celebração do nascimento</li>
+                            <li><strong>Quaresma:</strong> Roxo, penitência e preparação</li>
+                            <li><strong>Páscoa:</strong> Dourado, ressurreição de Cristo</li>
+                            <li><strong>Pentecostes:</strong> Laranja, vinda do Espírito Santo</li>
+                            <li><strong>Corpus Christi:</strong> Dourado, corpo e sangue de Cristo</li>
+                            <li><strong>Nossa Senhora Aparecida:</strong> Rosa, padroeira do Brasil</li>
+                            <li><strong>Finados:</strong> Cinza, comemoração dos fiéis defuntos</li>
+                        </ul>
+                        <p><strong>Status:</strong> <span class="status-indicator status-active"></span>Ativo - Tema de Natal aplicado</p>
+                        <button class="btn btn-primary" onclick="previewTheme('christmas')">Visualizar Tema</button>
+                    `
+                },
+                branding: {
+                    title: '🏛️ Branding da Igreja',
+                    content: `
+                        <h3>Personalizações Disponíveis:</h3>
+                        <ul>
+                            <li><strong>Cores:</strong> Primária, secundária, de destaque</li>
+                            <li><strong>Logotipo:</strong> Principal, secundário e favicon</li>
+                            <li><strong>Imagens de Capa:</strong> Principal, eventos, comunidade</li>
+                            <li><strong>Tipografia:</strong> Fontes e tamanhos personalizáveis</li>
+                            <li><strong>Layout:</strong> Espaçamentos e bordas</li>
+                        </ul>
+                        <p><strong>Status:</strong> <span class="status-indicator status-active"></span>Personalizado para Paróquia São José</p>
+                        <button class="btn btn-primary" onclick="customizeBranding()">Editar Branding</button>
+                    `
+                },
+                quests: {
+                    title: '🎯 Quests e Desafios',
+                    content: `
+                        <h3>Quests Disponíveis:</h3>
+                        <ul>
+                            <li><strong>Oração Diária:</strong> Reze por 5 minutos (65% completo)</li>
+                            <li><strong>Semana de Caridade:</strong> 3 boas ações (2/3 completo)</li>
+                            <li><strong>Estudo Bíblico:</strong> Leia um capítulo (0% completo)</li>
+                        </ul>
+                        <h3>Recompensas:</h3>
+                        <ul>
+                            <li>Pontos de experiência</li>
+                            <li>Badges especiais</li>
+                            <li>Desbloqueios de conteúdo</li>
+                        </ul>
+                        <button class="btn btn-success" onclick="viewQuests()">Ver Todas as Quests</button>
+                    `
+                },
+                streaks: {
+                    title: '🔥 Streak Diário',
+                    content: `
+                        <h3>Seu Streak Atual:</h3>
+                        <p><strong>Dias consecutivos:</strong> ${currentStreak}</p>
+                        <p><strong>Próximo marco:</strong> 14 dias</p>
+                        <p><strong>Maior streak:</strong> 30 dias</p>
+                        
+                        <h3>Atividades Contadas:</h3>
+                        <ul>
+                            <li>✅ Oração diária</li>
+                            <li>✅ Check-in na igreja</li>
+                            <li>✅ Leitura espiritual</li>
+                            <li>⏳ Caridade (hoje)</li>
+                        </ul>
+                        
+                        <button class="btn btn-warning" onclick="incrementStreak()">Fazer Check-in</button>
+                    `
+                },
+                animations: {
+                    title: '✨ Animações de Conquista',
+                    content: `
+                        <h3>Tipos de Animação:</h3>
+                        <ul>
+                            <li><strong>Badge Conquistado:</strong> Slide-in com confetes</li>
+                            <li><strong>Quest Completada:</strong> Scale-in com partículas</li>
+                            <li><strong>Streak Milestone:</strong> Fade-in com fogos</li>
+                            <li><strong>Subiu de Nível:</strong> Rotate-in com celebração</li>
+                        </ul>
+                        
+                        <h3>Efeitos Disponíveis:</h3>
+                        <ul>
+                            <li>🎊 Confetes coloridos</li>
+                            <li>✨ Partículas brilhantes</li>
+                            <li>🎵 Efeitos sonoros</li>
+                            <li>🎨 Cartões de conquista</li>
+                        </ul>
+                        
+                        <button class="btn btn-primary" onclick="testAnimations()">Testar Animações</button>
+                    `
+                },
+                notifications: {
+                    title: '🔔 Notificações com Ações Rápidas',
+                    content: `
+                        <h3>Ações Disponíveis:</h3>
+                        <ul>
+                            <li><strong>Confirmar Presença:</strong> Em eventos e missas</li>
+                            <li><strong>Doar:</strong> Para campanhas da igreja</li>
+                            <li><strong>Orar:</strong> Por pedidos de oração</li>
+                            <li><strong>Participar:</strong> Em eventos da comunidade</li>
+                        </ul>
+                        
+                        <h3>Tipos de Notificação:</h3>
+                        <ul>
+                            <li>⏰ Lembretes de missa</li>
+                            <li>🙏 Pedidos de oração</li>
+                            <li>🎯 Atualizações de quest</li>
+                            <li>🏆 Conquistas desbloqueadas</li>
+                        </ul>
+                        
+                        <button class="btn btn-success" onclick="testNotifications()">Testar Notificações</button>
+                    `
+                }
+            };
+            
+            const featureData = featureDetails[feature];
+            modalContent.innerHTML = `
+                <h2>${featureData.title}</h2>
+                ${featureData.content}
+            `;
+            
+            modal.style.display = 'block';
+        }
+
+        // Função para fechar modal
+        function closeModal() {
+            document.getElementById('featureModal').style.display = 'none';
+        }
+
+        // Função para incrementar streak
+        function incrementStreak() {
+            currentStreak++;
+            document.getElementById('streakNumber').textContent = currentStreak;
+            
+            // Mostra mensagem de sucesso
+            showMessage(`Streak incrementado para ${currentStreak} dias! 🔥`, 'success');
+            
+            // Verifica se atingiu marco
+            if (currentStreak === 7 || currentStreak === 14 || currentStreak === 30) {
+                setTimeout(() => {
+                    triggerAchievement();
+                }, 1000);
+            }
+        }
+
+        // Função para disparar conquista
+        function triggerAchievement() {
+            // Ativa confetes
+            startConfetti();
+            
+            // Mostra mensagem de conquista
+            showMessage('🎉 Parabéns! Conquista desbloqueada! 🎉', 'achievement');
+            
+            // Para confetes após 5 segundos
+            setTimeout(() => {
+                stopConfetti();
+            }, 5000);
+        }
+
+        // Função para mostrar mensagens
+        function showMessage(message, type = 'info') {
+            const messageDiv = document.createElement('div');
+            messageDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#2ecc71' : type === 'achievement' ? '#f39c12' : '#3498db'};
+                color: white;
+                padding: 15px 20px;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                z-index: 10000;
+                font-weight: bold;
+                animation: slideIn 0.5s ease;
+            `;
+            messageDiv.textContent = message;
+            
+            document.body.appendChild(messageDiv);
+            
+            // Remove mensagem após 3 segundos
+            setTimeout(() => {
+                messageDiv.style.animation = 'slideOut 0.5s ease';
+                setTimeout(() => {
+                    document.body.removeChild(messageDiv);
+                }, 500);
+            }, 3000);
+        }
+
+        // Sistema de confetes
+        function startConfetti() {
+            if (confettiActive) return;
+            
+            confettiActive = true;
+            const canvas = document.getElementById('confettiCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const confetti = [];
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3', '#54a0ff'];
+            
+            // Cria partículas de confete
+            for (let i = 0; i < 150; i++) {
+                confetti.push({
+                    x: Math.random() * canvas.width,
+                    y: -10,
+                    vx: (Math.random() - 0.5) * 8,
+                    vy: Math.random() * 3 + 2,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    size: Math.random() * 5 + 3,
+                    rotation: Math.random() * 360,
+                    rotationSpeed: (Math.random() - 0.5) * 10
+                });
+            }
+            
+            function animate() {
+                if (!confettiActive) return;
+                
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                confetti.forEach((particle, index) => {
+                    ctx.save();
+                    ctx.translate(particle.x, particle.y);
+                    ctx.rotate(particle.rotation * Math.PI / 180);
+                    
+                    ctx.fillStyle = particle.color;
+                    ctx.fillRect(-particle.size/2, -particle.size/2, particle.size, particle.size);
+                    
+                    ctx.restore();
+                    
+                    // Atualiza posição
+                    particle.x += particle.vx;
+                    particle.y += particle.vy;
+                    particle.rotation += particle.rotationSpeed;
+                    
+                    // Remove partículas que saíram da tela
+                    if (particle.y > canvas.height + 10) {
+                        confetti.splice(index, 1);
+                    }
+                });
+                
+                if (confetti.length > 0) {
+                    requestAnimationFrame(animate);
+                } else {
+                    confettiActive = false;
+                }
+            }
+            
+            animate();
+        }
+
+        function stopConfetti() {
+            confettiActive = false;
+        }
+
+        // Funções de demonstração
+        function showSeasonalThemes() {
+            showMessage('📅 Abrindo calendário de temas sazonais...', 'info');
+        }
+
+        function customizeBranding() {
+            showMessage('🎨 Abrindo editor de branding...', 'info');
+        }
+
+        function viewQuests() {
+            showMessage('🎯 Carregando lista de quests...', 'info');
+        }
+
+        function viewStreakDetails() {
+            showMessage('🔥 Mostrando detalhes do streak...', 'info');
+        }
+
+        function continueOnboarding() {
+            showMessage('🚀 Continuando onboarding...', 'info');
+        }
+
+        function updateFaithInfo() {
+            showMessage('⛪ Atualizando informações de fé...', 'info');
+        }
+
+        function customizePreferences() {
+            showMessage('🎨 Personalizando preferências...', 'info');
+        }
+
+        function configureNotifications() {
+            showMessage('🔔 Configurando notificações...', 'info');
+        }
+
+        function previewTheme(theme) {
+            showMessage(`🎨 Aplicando tema ${theme}...`, 'info');
+        }
+
+        function testAnimations() {
+            showMessage('✨ Testando animações...', 'info');
+            setTimeout(() => {
+                triggerAchievement();
+            }, 1000);
+        }
+
+        function testNotifications() {
+            showMessage('🔔 Testando notificações...', 'info');
+        }
+
+        // Fecha modal ao clicar fora dele
+        window.onclick = function(event) {
+            const modal = document.getElementById('featureModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Redimensiona canvas quando a janela é redimensionada
+        window.addEventListener('resize', function() {
+            const canvas = document.getElementById('confettiCanvas');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Adiciona estilos CSS para animações
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            showMessage('🎉 Bem-vindo ao ConnectFé! Explore as funcionalidades católicas!', 'achievement');
+        });
+    </script>
+</body>
+</html>

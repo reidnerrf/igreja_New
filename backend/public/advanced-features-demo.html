@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConnectFé - Funcionalidades Avançadas</title>
+    
+    <!-- CSS das funcionalidades avançadas -->
+    <link rel="stylesheet" href="css/social-sharing.css">
+    <link rel="stylesheet" href="css/home-widgets.css">
+    <link rel="stylesheet" href="css/recommendations.css">
+    <link rel="stylesheet" href="css/auto-categorization.css">
+    <link rel="stylesheet" href="css/insights.css">
+    
+    <!-- CSS de acessibilidade -->
+    <link rel="stylesheet" href="css/accessibility.css">
+    
+    <style>
+        /* CSS base da página */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+        
+        .header p {
+            font-size: 1.125rem;
+            opacity: 0.9;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 32px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .nav-tab {
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 600;
+            color: #666;
+        }
+        
+        .nav-tab:hover,
+        .nav-tab.active {
+            border-color: #667eea;
+            color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .demo-section {
+            margin-bottom: 40px;
+        }
+        
+        .demo-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .demo-description {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+        
+        .demo-actions {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .demo-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #667eea;
+            color: white;
+        }
+        
+        .demo-btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+        
+        .demo-btn-secondary {
+            background: #f8f9fa;
+            color: #666;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .demo-btn-secondary:hover {
+            background: #e9ecef;
+            border-color: #667eea;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-tab {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+            }
+            
+            .demo-actions {
+                flex-direction: column;
+            }
+            
+            .demo-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="font-size-user-normal">
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🚀 ConnectFé</h1>
+            <p>Funcionalidades Avançadas - Demonstração Completa</p>
+        </header>
+
+        <!-- Navegação por abas -->
+        <nav class="nav-tabs">
+            <div class="nav-tab active" onclick="showTab('social-sharing')">
+                🔗 Compartilhamento Social
+            </div>
+            <div class="nav-tab" onclick="showTab('widgets')">
+                📱 Widgets da Tela Inicial
+            </div>
+            <div class="nav-tab" onclick="showTab('recommendations')">
+                🎯 Sistema de Recomendações
+            </div>
+            <div class="nav-tab" onclick="showTab('categorization')">
+                🤖 Auto-categorização ML
+            </div>
+            <div class="nav-tab" onclick="showTab('insights')">
+                📊 Sistema de Insights
+            </div>
+        </nav>
+
+        <!-- Aba: Compartilhamento Social -->
+        <div id="social-sharing" class="tab-content active">
+            <div class="demo-section">
+                <h2 class="demo-title">🔗 Compartilhamento Social</h2>
+                <p class="demo-description">
+                    Sistema completo de compartilhamento com preview, múltiplas plataformas, 
+                    configurações personalizáveis e geração de links bonitos.
+                </p>
+                
+                <div class="demo-actions">
+                    <button class="demo-btn" onclick="openSocialSharing('post')">
+                        Compartilhar Post
+                    </button>
+                    <button class="demo-btn" onclick="openSocialSharing('event')">
+                        Compartilhar Evento
+                    </button>
+                    <button class="demo-btn" onclick="openSocialSharing('achievement')">
+                        Compartilhar Conquista
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Aba: Widgets da Tela Inicial -->
+        <div id="widgets" class="tab-content">
+            <div class="demo-section">
+                <h2 class="demo-title">📱 Widgets da Tela Inicial</h2>
+                <p class="demo-description">
+                    Dashboard personalizável com widgets para próximos eventos, metas, 
+                    atividade recente, estatísticas e ações rápidas.
+                </p>
+                
+                <div class="demo-actions">
+                    <button class="demo-btn" onclick="showWidgets()">
+                        Mostrar Widgets
+                    </button>
+                    <button class="demo-btn-secondary" onclick="customizeWidgets()">
+                        Personalizar Layout
+                    </button>
+                </div>
+                
+                <!-- Widgets de exemplo -->
+                <div class="home-widgets" id="widgetsContainer" style="display: none;">
+                    <!-- Widget de Próximos Eventos -->
+                    <div class="home-widget widget-events">
+                        <div class="widget-header">
+                            <h3 class="widget-title">
+                                <span class="widget-title-icon">📅</span>
+                                Próximos Eventos
+                            </h3>
+                            <div class="widget-actions">
+                                <button class="widget-action-btn">⚙️</button>
+                                <button class="widget-action-btn">📊</button>
+                            </div>
+                        </div>
+                        
+                        <div class="events-list">
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <div class="event-date-day">15</div>
+                                    <div class="event-date-month">DEZ</div>
+                                </div>
+                                <div class="event-info">
+                                    <h4 class="event-title">Culto de Celebração</h4>
+                                    <p class="event-time">19:00 - 21:00</p>
+                                    <p class="event-location">Igreja Central</p>
+                                </div>
+                                <span class="event-status upcoming">Próximo</span>
+                            </div>
+                            
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <div class="event-date-day">20</div>
+                                    <div class="event-date-month">DEZ</div>
+                                </div>
+                                <div class="event-info">
+                                    <h4 class="event-title">Encontro de Jovens</h4>
+                                    <p class="event-time">20:00 - 22:00</p>
+                                    <p class="event-location">Salão Social</p>
+                                </div>
+                                <span class="event-status today">Hoje</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Widget de Metas -->
+                    <div class="home-widget widget-goals">
+                        <div class="widget-header">
+                            <h3 class="widget-title">
+                                <span class="widget-title-icon">🎯</span>
+                                Metas da Semana
+                            </h3>
+                            <div class="widget-actions">
+                                <button class="widget-action-btn">📈</button>
+                            </div>
+                        </div>
+                        
+                        <div class="goals-overview">
+                            <div class="goal-card">
+                                <span class="goal-icon">🙏</span>
+                                <div class="goal-value">12</div>
+                                <div class="goal-label">Orações</div>
+                            </div>
+                            <div class="goal-card">
+                                <span class="goal-icon">📖</span>
+                                <div class="goal-value">5</div>
+                                <div class="goal-label">Estudos</div>
+                            </div>
+                            <div class="goal-card">
+                                <span class="goal-icon">🤝</span>
+                                <div class="goal-value">3</div>
+                                <div class="goal-label">Encontros</div>
+                            </div>
+                        </div>
+                        
+                        <div class="goal-progress">
+                            <div class="goal-progress-item">
+                                <div class="goal-progress-header">
+                                    <span class="goal-progress-title">Orações Diárias</span>
+                                    <span class="goal-progress-percentage">80%</span>
+                                </div>
+                                <div class="goal-progress-bar">
+                                    <div class="goal-progress-fill" style="width: 80%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Widget de Estatísticas -->
+                    <div class="home-widget widget-stats">
+                        <div class="widget-header">
+                            <h3 class="widget-title">
+                                <span class="widget-title-icon">📊</span>
+                                Estatísticas
+                            </h3>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-icon">👥</span>
+                                <div class="stat-value">1,247</div>
+                                <div class="stat-label">Membros</div>
+                                <div class="stat-change positive">+12%</div>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-icon">📱</span>
+                                <div class="stat-value">89%</div>
+                                <div class="stat-label">Engajamento</div>
+                                <div class="stat-change positive">+5%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Aba: Sistema de Recomendações -->
+        <div id="recommendations" class="tab-content">
+            <div class="demo-section">
+                <h2 class="demo-title">🎯 Sistema de Recomendações</h2>
+                <p class="demo-description">
+                    Recomendações inteligentes baseadas no histórico do usuário, 
+                    proximidade geográfica e preferências pessoais.
+                </p>
+                
+                <div class="demo-actions">
+                    <button class="demo-btn" onclick="showRecommendations()">
+                        Ver Recomendações
+                    </button>
+                    <button class="demo-btn-secondary" onclick="configureRecommendations()">
+                        Configurar Preferências
+                    </button>
+                </div>
+                
+                <!-- Recomendações de exemplo -->
+                <div class="recommendations-container" id="recommendationsContainer" style="display: none;">
+                    <div class="recommendations-header">
+                        <h3 class="recommendations-title">Recomendações para Você</h3>
+                        <p class="recommendations-subtitle">
+                            Baseado no seu histórico e preferências
+                        </p>
+                    </div>
+                    
+                    <div class="recommendations-filters">
+                        <div class="filter-tab active">Eventos</div>
+                        <div class="filter-tab">Igrejas</div>
+                        <div class="filter-tab">Grupos</div>
+                        <div class="filter-tab">Atividades</div>
+                    </div>
+                    
+                    <div class="recommendations-grid">
+                        <div class="recommendation-card recommendation-event">
+                            <div class="recommendation-score high">95%</div>
+                            <div class="recommendation-header">
+                                <div class="recommendation-icon">🎉</div>
+                                <div class="recommendation-info">
+                                    <h4 class="recommendation-title">Retiro de Jovens</h4>
+                                    <p class="recommendation-subtitle">Fim de semana espiritual</p>
+                                </div>
+                            </div>
+                            
+                            <div class="recommendation-content">
+                                <p class="recommendation-description">
+                                    Retiro de fim de semana para jovens com foco em crescimento espiritual, 
+                                    comunhão e diversão.
+                                </p>
+                            </div>
+                            
+                            <div class="recommendation-reasons">
+                                <h5 class="recommendation-reasons-title">Por que recomendamos:</h5>
+                                <div class="recommendation-reasons-list">
+                                    <div class="recommendation-reason">Baseado no seu interesse em eventos para jovens</div>
+                                    <div class="recommendation-reason">Localização próxima à sua igreja</div>
+                                    <div class="recommendation-reason">Horário compatível com sua agenda</div>
+                                </div>
+                            </div>
+                            
+                            <div class="recommendation-metrics">
+                                <div class="recommendation-metric">
+                                    <span class="recommendation-metric-icon">📍</span>
+                                    <div class="recommendation-metric-value">2.3km</div>
+                                    <div class="recommendation-metric-label">Distância</div>
+                                </div>
+                                <div class="recommendation-metric">
+                                    <span class="recommendation-metric-icon">⭐</span>
+                                    <div class="recommendation-metric-value">4.8</div>
+                                    <div class="recommendation-metric-label">Avaliação</div>
+                                </div>
+                            </div>
+                            
+                            <div class="recommendation-actions">
+                                <button class="recommendation-btn recommendation-btn-primary">
+                                    Participar
+                                </button>
+                                <button class="recommendation-btn recommendation-btn-secondary">
+                                    Mais Detalhes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Aba: Auto-categorização ML -->
+        <div id="categorization" class="tab-content">
+            <div class="demo-section">
+                <h2 class="demo-title">🤖 Auto-categorização com ML</h2>
+                <p class="demo-description">
+                    Sistema inteligente que categoriza automaticamente posts, notas e orações 
+                    usando machine learning e permite ajustes manuais.
+                </p>
+                
+                <div class="demo-actions">
+                    <button class="demo-btn" onclick="showCategorization()">
+                        Testar Categorização
+                    </button>
+                    <button class="demo-btn-secondary" onclick="viewHistory()">
+                        Ver Histórico
+                    </button>
+                </div>
+                
+                <!-- Interface de categorização -->
+                <div class="auto-categorization" id="categorizationContainer" style="display: none;">
+                    <div class="auto-categorization-header">
+                        <h3 class="auto-categorization-title">Auto-categorização Inteligente</h3>
+                        <p class="auto-categorization-subtitle">
+                            Digite seu texto e deixe a IA categorizar automaticamente
+                        </p>
+                    </div>
+                    
+                    <div class="categorization-input-area">
+                        <label class="categorization-input-label">
+                            Digite seu texto aqui:
+                        </label>
+                        <textarea 
+                            class="categorization-textarea" 
+                            placeholder="Ex: Hoje tive uma experiência incrível na igreja. O pastor falou sobre fé e esperança, e isso me tocou profundamente..."
+                            rows="4"
+                        ></textarea>
+                        
+                        <div class="categorization-input-footer">
+                            <span class="categorization-char-count">0 / 500 caracteres</span>
+                            <div class="categorization-input-actions">
+                                <button class="categorization-input-btn categorization-input-btn-secondary">
+                                    Limpar
+                                </button>
+                                <button class="categorization-input-btn categorization-input-btn-primary">
+                                    Categorizar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Resultados simulados -->
+                    <div class="categorization-results" id="categorizationResults" style="display: none;">
+                        <div class="categorization-results-header">
+                            <h4 class="categorization-results-title">
+                                Categorias Sugeridas
+                            </h4>
+                            <div class="categorization-confidence">
+                                <span class="confidence-label">Confiança:</span>
+                                <span class="confidence-value high">92%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="categorization-suggestions">
+                            <div class="categorization-suggestion selected">
+                                <div class="categorization-score">92%</div>
+                                <div class="categorization-suggestion-content">
+                                    <h5 class="categorization-suggestion-title">Testemunho Pessoal</h5>
+                                    <p class="categorization-suggestion-description">
+                                        Relato de experiência pessoal na igreja ou relacionada à fé
+                                    </p>
+                                    
+                                    <div class="categorization-tags">
+                                        <span class="categorization-tag">Testemunho</span>
+                                        <span class="categorization-tag">Igreja</span>
+                                        <span class="categorization-tag">Fé</span>
+                                    </div>
+                                    
+                                    <div class="categorization-reasons">
+                                        <h6 class="categorization-reasons-title">Razões:</h6>
+                                        <div class="categorization-reasons-list">
+                                            <div class="categorization-reason">Contém palavras relacionadas à igreja</div>
+                                            <div class="categorization-reason">Expressa experiência pessoal</div>
+                                            <div class="categorization-reason">Menciona temas espirituais</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="categorization-suggestion-actions">
+                                        <button class="categorization-suggestion-btn categorization-suggestion-btn-primary">
+                                            Confirmar
+                                        </button>
+                                        <button class="categorization-suggestion-btn categorization-suggestion-btn-secondary">
+                                            Editar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Aba: Sistema de Insights -->
+        <div id="insights" class="tab-content">
+            <div class="demo-section">
+                <h2 class="demo-title">📊 Sistema de Insights</h2>
+                <p class="demo-description">
+                    Análises inteligentes sobre engajamento, horários ideais de postagem, 
+                    semanas mais ativas e recomendações para melhorar o alcance.
+                </p>
+                
+                <div class="demo-actions">
+                    <button class="demo-btn" onclick="showInsights()">
+                        Ver Insights
+                    </button>
+                    <button class="demo-btn-secondary" onclick="exportInsights()">
+                        Exportar Relatório
+                    </button>
+                </div>
+                
+                <!-- Insights de exemplo -->
+                <div class="insights-container" id="insightsContainer" style="display: none;">
+                    <div class="insights-header">
+                        <h3 class="insights-title">Insights da Sua Atividade</h3>
+                        <p class="insights-subtitle">
+                            Análises baseadas nos últimos 30 dias
+                        </p>
+                    </div>
+                    
+                    <div class="insights-period-filters">
+                        <div class="period-filter active">7 dias</div>
+                        <div class="period-filter">30 dias</div>
+                        <div class="period-filter">90 dias</div>
+                        <div class="period-filter">1 ano</div>
+                    </div>
+                    
+                    <div class="insights-grid">
+                        <!-- Insight de Engajamento -->
+                        <div class="insight-card insight-engagement">
+                            <div class="insight-header">
+                                <h4 class="insight-title">
+                                    <span class="insight-icon">📈</span>
+                                    Melhor Horário de Postagem
+                                </h4>
+                                <div class="insight-trend positive">
+                                    <span class="insight-trend-icon">↗️</span>
+                                    +15%
+                                </div>
+                            </div>
+                            
+                            <div class="insight-content">
+                                <p class="insight-description">
+                                    Seus posts têm maior engajamento entre 19h e 21h, 
+                                    especialmente aos domingos e quartas-feiras.
+                                </p>
+                                
+                                <div class="insight-metrics">
+                                    <div class="insight-metric">
+                                        <span class="insight-metric-icon">⏰</span>
+                                        <div class="insight-metric-value">19h</div>
+                                        <div class="insight-metric-label">Horário Ideal</div>
+                                    </div>
+                                    <div class="insight-metric">
+                                        <span class="insight-metric-icon">📅</span>
+                                        <div class="insight-metric-value">Dom/Qua</div>
+                                        <div class="insight-metric-label">Dias Ideais</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="insight-visualization">
+                                    <div class="insight-chart">
+                                        <div class="insight-bar-chart">
+                                            <div class="insight-bar" style="height: 60%">
+                                                <div class="insight-bar-value">85%</div>
+                                                <div class="insight-bar-label">Seg</div>
+                                            </div>
+                                            <div class="insight-bar" style="height: 70%">
+                                                <div class="insight-bar-value">78%</div>
+                                                <div class="insight-bar-label">Ter</div>
+                                            </div>
+                                            <div class="insight-bar" style="height: 90%">
+                                                <div class="insight-bar-value">92%</div>
+                                                <div class="insight-bar-label">Qua</div>
+                                            </div>
+                                            <div class="insight-bar" style="height: 65%">
+                                                <div class="insight-bar-value">72%</div>
+                                                <div class="insight-bar-label">Qui</div>
+                                            </div>
+                                            <div class="insight-bar" style="height: 80%">
+                                                <div class="insight-bar-value">88%</div>
+                                                <div class="insight-bar-label">Sex</div>
+                                            </div>
+                                            <div class="insight-bar" style="height: 95%">
+                                                <div class="insight-bar-value">96%</div>
+                                                <div class="insight-bar-label">Sáb</div>
+                                            </div>
+                                            <div class="insight-bar" style="height: 100%">
+                                                <div class="insight-bar-value">98%</div>
+                                                <div class="insight-bar-label">Dom</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="insight-recommendations">
+                                    <h5 class="insight-recommendations-title">Recomendações:</h5>
+                                    <div class="insight-recommendations-list">
+                                        <div class="insight-recommendation">
+                                            Programe posts para domingos às 19h para máximo engajamento
+                                        </div>
+                                        <div class="insight-recommendation">
+                                            Use quartas-feiras para conteúdo mais reflexivo
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="insight-actions">
+                                    <button class="insight-btn insight-btn-primary">
+                                        Agendar Post
+                                    </button>
+                                    <button class="insight-btn insight-btn-secondary">
+                                        Ver Detalhes
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Insight de Semana Mais Engajada -->
+                        <div class="insight-card insight-timing">
+                            <div class="insight-header">
+                                <h4 class="insight-title">
+                                    <span class="insight-icon">🔥</span>
+                                    Semana Mais Engajada
+                                </h4>
+                                <div class="insight-trend positive">
+                                    <span class="insight-trend-icon">↗️</span>
+                                    +23%
+                                </div>
+                            </div>
+                            
+                            <div class="insight-content">
+                                <p class="insight-description">
+                                    A semana de 15 a 21 de novembro teve o maior engajamento 
+                                    do mês, com 23% mais interações que a média.
+                                </p>
+                                
+                                <div class="insight-metrics">
+                                    <div class="insight-metric">
+                                        <span class="insight-metric-icon">📊</span>
+                                        <div class="insight-metric-value">23%</div>
+                                        <div class="insight-metric-label">Acima da Média</div>
+                                    </div>
+                                    <div class="insight-metric">
+                                        <span class="insight-metric-icon">👥</span>
+                                        <div class="insight-metric-value">1,247</div>
+                                        <div class="insight-metric-label">Interações</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="insight-visualization">
+                                    <div class="insight-chart">
+                                        <div class="insight-pie-chart">
+                                            <div class="insight-pie-slice" style="background: #667eea; clip-path: polygon(50% 50%, 100% 0%, 100% 100%, 0% 100%, 0% 0%)"></div>
+                                            <div class="insight-pie-center">23%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="insight-recommendations">
+                                    <h5 class="insight-recommendations-title">Fatores:</h5>
+                                    <div class="insight-recommendations-list">
+                                        <div class="insight-recommendation">
+                                            Evento especial na igreja
+                                        </div>
+                                        <div class="insight-recommendation">
+                                            Conteúdo sobre gratidão
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="insight-actions">
+                                    <button class="insight-btn insight-btn-primary">
+                                        Analisar Fatores
+                                    </button>
+                                    <button class="insight-btn insight-btn-secondary">
+                                        Repetir Estratégia
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Comparação de períodos -->
+                    <div class="insights-comparison">
+                        <h4 class="insights-comparison-title">Comparação com Período Anterior</h4>
+                        <div class="insights-comparison-grid">
+                            <div class="comparison-period">
+                                <div class="comparison-period-label">Período Atual</div>
+                                <div class="comparison-period-value">1,247</div>
+                                <div class="comparison-period-change positive">+23%</div>
+                            </div>
+                            <div class="comparison-period">
+                                <div class="comparison-period-label">Período Anterior</div>
+                                <div class="comparison-period-value">1,014</div>
+                                <div class="comparison-period-change neutral">0%</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Exportação -->
+                    <div class="insights-export">
+                        <h4 class="insights-export-title">Exportar Insights</h4>
+                        <p class="insights-export-description">
+                            Baixe seus insights em diferentes formatos ou compartilhe com sua equipe
+                        </p>
+                        <div class="insights-export-actions">
+                            <button class="insights-export-btn insights-export-btn-pdf">
+                                📄 PDF
+                            </button>
+                            <button class="insights-export-btn insights-export-btn-excel">
+                                📊 Excel
+                            </button>
+                            <button class="insights-export-btn insights-export-btn-share">
+                                🔗 Compartilhar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Compartilhamento Social -->
+    <div class="social-sharing" id="socialSharingModal">
+        <div class="sharing-modal">
+            <div class="sharing-header">
+                <button class="sharing-close" onclick="closeSocialSharing()">×</button>
+                <h3 class="sharing-title">Compartilhar</h3>
+                <p class="sharing-subtitle">Escolha como compartilhar este conteúdo</p>
+            </div>
+            
+            <div class="sharing-content">
+                <div class="sharing-preview">
+                    <div class="sharing-preview-header">
+                        <div class="sharing-preview-avatar">👤</div>
+                        <div class="sharing-preview-info">
+                            <h4 class="sharing-preview-author">João Silva</h4>
+                            <p class="sharing-preview-meta">Há 2 horas</p>
+                        </div>
+                    </div>
+                    <p class="sharing-preview-content">
+                        Conteúdo que será compartilhado aparecerá aqui...
+                    </p>
+                    <div class="sharing-preview-image">🖼️</div>
+                    <div class="sharing-preview-footer">
+                        <span class="sharing-preview-stat">👍 24</span>
+                        <span class="sharing-preview-stat">💬 8</span>
+                        <span class="sharing-preview-stat">🔄 3</span>
+                    </div>
+                </div>
+                
+                <div class="sharing-options">
+                    <h4 class="sharing-options-title">Plataformas</h4>
+                    <div class="sharing-platforms">
+                        <a href="#" class="sharing-platform whatsapp">
+                            <span class="sharing-platform-icon">📱</span>
+                            <span class="sharing-platform-name">WhatsApp</span>
+                        </a>
+                        <a href="#" class="sharing-platform facebook">
+                            <span class="sharing-platform-icon">📘</span>
+                            <span class="sharing-platform-name">Facebook</span>
+                        </a>
+                        <a href="#" class="sharing-platform twitter">
+                            <span class="sharing-platform-icon">🐦</span>
+                            <span class="sharing-platform-name">Twitter</span>
+                        </a>
+                        <a href="#" class="sharing-platform instagram">
+                            <span class="sharing-platform-icon">📷</span>
+                            <span class="sharing-platform-name">Instagram</span>
+                        </a>
+                        <a href="#" class="sharing-platform telegram">
+                            <span class="sharing-platform-icon">📬</span>
+                            <span class="sharing-platform-name">Telegram</span>
+                        </a>
+                        <a href="#" class="sharing-platform copy">
+                            <span class="sharing-platform-icon">📋</span>
+                            <span class="sharing-platform-name">Copiar Link</span>
+                        </a>
+                        <a href="#" class="sharing-platform qr">
+                            <span class="sharing-platform-icon">📱</span>
+                            <span class="sharing-platform-name">QR Code</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="sharing-settings">
+                    <h4 class="sharing-settings-title">Configurações</h4>
+                    <div class="sharing-settings-group">
+                        <div class="sharing-settings-item">
+                            <div class="sharing-settings-label">
+                                <span class="sharing-settings-icon">🔒</span>
+                                <div>
+                                    <div class="sharing-settings-text">Compartilhamento Privado</div>
+                                    <p class="sharing-settings-description">Apenas pessoas com link podem ver</p>
+                                </div>
+                            </div>
+                            <div class="sharing-switch active"></div>
+                        </div>
+                        <div class="sharing-settings-item">
+                            <div class="sharing-settings-label">
+                                <span class="sharing-settings-icon">📊</span>
+                                <div>
+                                    <div class="sharing-settings-text">Rastrear Visualizações</div>
+                                    <p class="sharing-settings-description">Monitorar quem visualizou</p>
+                                </div>
+                            </div>
+                            <div class="sharing-checkbox checked"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sharing-link">
+                    <h4 class="sharing-link-title">Link de Compartilhamento</h4>
+                    <input type="text" class="sharing-link-input" value="https://connectfe.com/share/abc123" readonly>
+                    <div class="sharing-link-actions">
+                        <button class="sharing-link-btn sharing-link-btn-copy">Copiar</button>
+                        <button class="sharing-link-btn sharing-link-btn-qr">QR Code</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sharing-actions">
+                <button class="sharing-btn sharing-btn-secondary" onclick="closeSocialSharing()">
+                    Cancelar
+                </button>
+                <button class="sharing-btn sharing-btn-primary">
+                    Compartilhar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funções de navegação por abas
+        function showTab(tabName) {
+            // Esconder todas as abas
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remover classe active de todas as abas
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Mostrar aba selecionada
+            document.getElementById(tabName).classList.add('active');
+            
+            // Adicionar classe active na aba de navegação
+            event.target.classList.add('active');
+        }
+
+        // Funções do Compartilhamento Social
+        function openSocialSharing(type) {
+            const modal = document.getElementById('socialSharingModal');
+            modal.classList.add('show');
+            
+            // Atualizar preview baseado no tipo
+            updateSharingPreview(type);
+        }
+
+        function closeSocialSharing() {
+            const modal = document.getElementById('socialSharingModal');
+            modal.classList.remove('show');
+        }
+
+        function updateSharingPreview(type) {
+            const preview = document.querySelector('.sharing-preview-content');
+            const image = document.querySelector('.sharing-preview-image');
+            
+            switch(type) {
+                case 'post':
+                    preview.textContent = 'Hoje tive uma experiência incrível na igreja. O pastor falou sobre fé e esperança, e isso me tocou profundamente...';
+                    image.textContent = '📖';
+                    break;
+                case 'event':
+                    preview.textContent = 'Não perca o próximo evento! Culto de Celebração neste domingo às 19h. Venha celebrar conosco! 🎉';
+                    image.textContent = '🎉';
+                    break;
+                case 'achievement':
+                    preview.textContent = 'Conquistei minha primeira medalha de participação! 🏆 Graças a Deus por essa jornada de fé.';
+                    image.textContent = '🏆';
+                    break;
+            }
+        }
+
+        // Funções dos Widgets
+        function showWidgets() {
+            const container = document.getElementById('widgetsContainer');
+            container.style.display = 'grid';
+        }
+
+        function customizeWidgets() {
+            alert('Funcionalidade de personalização de widgets será implementada em breve!');
+        }
+
+        // Funções das Recomendações
+        function showRecommendations() {
+            const container = document.getElementById('recommendationsContainer');
+            container.style.display = 'block';
+        }
+
+        function configureRecommendations() {
+            alert('Configurações de preferências de recomendação serão implementadas em breve!');
+        }
+
+        // Funções da Auto-categorização
+        function showCategorization() {
+            const container = document.getElementById('categorizationContainer');
+            container.style.display = 'block';
+        }
+
+        function viewHistory() {
+            alert('Histórico de categorizações será implementado em breve!');
+        }
+
+        // Funções dos Insights
+        function showInsights() {
+            const container = document.getElementById('insightsContainer');
+            container.style.display = 'block';
+        }
+
+        function exportInsights() {
+            alert('Funcionalidade de exportação será implementada em breve!');
+        }
+
+        // Contador de caracteres para categorização
+        document.addEventListener('DOMContentLoaded', function() {
+            const textarea = document.querySelector('.categorization-textarea');
+            const charCount = document.querySelector('.categorization-char-count');
+            
+            if (textarea && charCount) {
+                textarea.addEventListener('input', function() {
+                    const count = this.value.length;
+                    charCount.textContent = `${count} / 500 caracteres`;
+                    
+                    if (count > 450) {
+                        charCount.classList.add('limit-reached');
+                    } else {
+                        charCount.classList.remove('limit-reached');
+                    }
+                });
+            }
+            
+            // Simular categorização automática
+            const categorizeBtn = document.querySelector('.categorization-input-btn-primary');
+            if (categorizeBtn) {
+                categorizeBtn.addEventListener('click', function() {
+                    const results = document.getElementById('categorizationResults');
+                    results.style.display = 'block';
+                    
+                    // Scroll para os resultados
+                    results.scrollIntoView({ behavior: 'smooth' });
+                });
+            }
+        });
+
+        // Fechar modal ao clicar fora
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('socialSharingModal');
+            if (event.target === modal) {
+                closeSocialSharing();
+            }
+        });
+
+        // Fechar modal com ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeSocialSharing();
+            }
+        });
+    </script>
+</body>
+</html>

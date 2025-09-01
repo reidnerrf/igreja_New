@@ -1,0 +1,648 @@
+/* ===== SISTEMA DE ACESSIBILIDADE AA - CONNECTFÉ ===== */
+
+/* ===== CONTRASTE E CORES ===== */
+
+/* Variáveis CSS para cores com contraste AA */
+:root {
+  /* Cores primárias com contraste AA */
+  --primary-aa: #2c5aa0;
+  --primary-light-aa: #5a8bc8;
+  --primary-dark-aa: #1a3d6b;
+  
+  /* Cores secundárias com contraste AA */
+  --secondary-aa: #6b4e71;
+  --secondary-light-aa: #9a7ba0;
+  --secondary-dark-aa: #4a374e;
+  
+  /* Cores de texto com contraste AA */
+  --text-primary-aa: #1a1a1a;
+  --text-secondary-aa: #4a4a4a;
+  --text-muted-aa: #6b6b6b;
+  
+  /* Cores de fundo com contraste AA */
+  --bg-primary-aa: #ffffff;
+  --bg-secondary-aa: #f8f9fa;
+  --bg-tertiary-aa: #e9ecef;
+  
+  /* Cores de estado com contraste AA */
+  --success-aa: #1e7e34;
+  --success-light-aa: #d4edda;
+  --warning-aa: #856404;
+  --warning-light-aa: #fff3cd;
+  --error-aa: #721c24;
+  --error-light-aa: #f8d7da;
+  --info-aa: #0c5460;
+  --info-light-aa: #d1ecf1;
+  
+  /* Cores de link com contraste AA */
+  --link-aa: #0056b3;
+  --link-hover-aa: #003d82;
+  --link-visited-aa: #6f42c1;
+  
+  /* Cores de foco com contraste AA */
+  --focus-aa: #0056b3;
+  --focus-ring-aa: rgba(0, 86, 179, 0.25);
+}
+
+/* ===== FONTES DINÂMICAS ===== */
+
+/* Sistema de fontes responsivo */
+.font-size-small {
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.font-size-normal {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.font-size-large {
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+.font-size-xlarge {
+  font-size: 1.25rem;
+  line-height: 1.6;
+}
+
+.font-size-xxlarge {
+  font-size: 1.5rem;
+  line-height: 1.4;
+}
+
+/* Controles de fonte para usuário */
+.font-controls {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--bg-primary-aa);
+  border: 2px solid var(--primary-aa);
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.font-controls button {
+  background: var(--primary-aa);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.font-controls button:hover {
+  background: var(--primary-dark-aa);
+  transform: translateY(-1px);
+}
+
+.font-controls button:focus {
+  outline: 2px solid var(--focus-aa);
+  outline-offset: 2px;
+}
+
+/* Classes de fonte aplicáveis */
+.font-size-user-small {
+  font-size: 0.75rem !important;
+  line-height: 1.3 !important;
+}
+
+.font-size-user-normal {
+  font-size: 1rem !important;
+  line-height: 1.5 !important;
+}
+
+.font-size-user-large {
+  font-size: 1.25rem !important;
+  line-height: 1.6 !important;
+}
+
+.font-size-user-xlarge {
+  font-size: 1.5rem !important;
+  line-height: 1.4 !important;
+}
+
+.font-size-user-xxlarge {
+  font-size: 2rem !important;
+  line-height: 1.3 !important;
+}
+
+/* ===== FOCUS E NAVEGAÇÃO ===== */
+
+/* Indicadores de foco visíveis */
+*:focus {
+  outline: 2px solid var(--focus-aa) !important;
+  outline-offset: 2px !important;
+}
+
+/* Foco para elementos interativos */
+button:focus,
+input:focus,
+select:focus,
+textarea:focus,
+a:focus,
+[tabindex]:focus {
+  outline: 3px solid var(--focus-aa) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 3px var(--focus-ring-aa) !important;
+}
+
+/* Foco para elementos customizados */
+.custom-focus:focus {
+  outline: 3px solid var(--focus-aa) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 3px var(--focus-ring-aa) !important;
+}
+
+/* ===== SKIP LINKS ===== */
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--primary-aa);
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 4px;
+  z-index: 1001;
+  transition: top 0.3s ease;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+/* ===== LABELS E FORMULÁRIOS ===== */
+
+/* Labels obrigatórios */
+.required-label::after {
+  content: " *";
+  color: var(--error-aa);
+  font-weight: bold;
+}
+
+/* Labels ocultos para screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Labels visuais para campos */
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--text-primary-aa);
+  font-size: 1rem;
+}
+
+.form-label + input,
+.form-label + select,
+.form-label + textarea {
+  margin-top: 0.25rem;
+}
+
+/* Campos de formulário acessíveis */
+.form-control {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--bg-tertiary-aa);
+  border-radius: 8px;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text-primary-aa);
+  background: var(--bg-primary-aa);
+  transition: all 0.2s ease;
+}
+
+.form-control:focus {
+  border-color: var(--focus-aa);
+  box-shadow: 0 0 0 3px var(--focus-ring-aa);
+}
+
+.form-control:invalid {
+  border-color: var(--error-aa);
+}
+
+.form-control:valid {
+  border-color: var(--success-aa);
+}
+
+/* Mensagens de erro acessíveis */
+.form-error {
+  color: var(--error-aa);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-error::before {
+  content: "⚠️";
+  font-size: 1rem;
+}
+
+/* Mensagens de sucesso */
+.form-success {
+  color: var(--success-aa);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-success::before {
+  content: "✅";
+  font-size: 1rem;
+}
+
+/* ===== BOTÕES ACESSÍVEIS ===== */
+
+/* Botões com estados visuais claros */
+.btn-accessible {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 12px 24px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 44px; /* Tamanho mínimo para touch */
+  min-width: 44px;
+}
+
+.btn-accessible:focus {
+  outline: 3px solid var(--focus-aa);
+  outline-offset: 2px;
+}
+
+.btn-accessible:active {
+  transform: translateY(1px);
+}
+
+/* Variantes de botão */
+.btn-primary {
+  background: var(--primary-aa);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark-aa);
+}
+
+.btn-secondary {
+  background: var(--bg-secondary-aa);
+  color: var(--text-primary-aa);
+  border-color: var(--bg-tertiary-aa);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-tertiary-aa);
+}
+
+.btn-success {
+  background: var(--success-aa);
+  color: white;
+}
+
+.btn-success:hover {
+  background: #155724;
+}
+
+.btn-danger {
+  background: var(--error-aa);
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #5a1a1a;
+}
+
+/* ===== IMAGENS E MÍDIAS ===== */
+
+/* Imagens com alt text */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Imagens decorativas */
+.img-decorative {
+  alt: "";
+}
+
+/* Imagens informativas */
+.img-informative {
+  /* Alt text deve ser fornecido via HTML */
+}
+
+/* ===== TABELAS ACESSÍVEIS ===== */
+
+.table-accessible {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.table-accessible th,
+.table-accessible td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--bg-tertiary-aa);
+}
+
+.table-accessible th {
+  background: var(--bg-secondary-aa);
+  font-weight: 600;
+  color: var(--text-primary-aa);
+}
+
+.table-accessible caption {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-primary-aa);
+}
+
+/* ===== LISTAS ACESSÍVEIS ===== */
+
+.list-accessible {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.list-accessible li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+/* ===== NAVEGAÇÃO POR TECLADO ===== */
+
+/* Indicador de navegação por teclado */
+.keyboard-nav *:focus {
+  outline: 3px solid var(--focus-aa) !important;
+  outline-offset: 2px !important;
+}
+
+/* Ordem de tabulação lógica */
+.tab-order-1 { order: 1; }
+.tab-order-2 { order: 2; }
+.tab-order-3 { order: 3; }
+.tab-order-4 { order: 4; }
+.tab-order-5 { order: 5; }
+
+/* ===== ANIMAÇÕES E REDUÇÃO DE MOTION ===== */
+
+/* Respeitar preferência do usuário */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Animações com opção de pausar */
+.animation-pausable {
+  animation-play-state: running;
+}
+
+.animation-pausable.paused {
+  animation-play-state: paused;
+}
+
+/* ===== ALTO CONTRASTE ===== */
+
+/* Modo alto contraste */
+@media (prefers-contrast: high) {
+  :root {
+    --text-primary-aa: #000000;
+    --text-secondary-aa: #333333;
+    --bg-primary-aa: #ffffff;
+    --bg-secondary-aa: #f0f0f0;
+    --primary-aa: #000080;
+    --focus-aa: #ff0000;
+  }
+  
+  * {
+    border-color: #000000 !important;
+  }
+}
+
+/* ===== TAMANHOS DE TOUCH ===== */
+
+/* Elementos interativos com tamanho mínimo para touch */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Espaçamento entre elementos touch */
+.touch-spacing > * + * {
+  margin-left: 8px;
+}
+
+/* ===== SCREEN READER ONLY ===== */
+
+/* Conteúdo apenas para screen readers */
+.sr-only,
+.sr-only-focusable:not(:focus) {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.sr-only-focusable:focus {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  overflow: visible !important;
+  clip: auto !important;
+  white-space: normal !important;
+}
+
+/* ===== ESTADOS DE CARREGAMENTO ===== */
+
+/* Indicadores de carregamento acessíveis */
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary-aa);
+}
+
+.loading-indicator::before {
+  content: "⏳";
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ===== MENSAGENS DE STATUS ===== */
+
+/* Mensagens de status para screen readers */
+.status-message {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.status-message:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+}
+
+/* ===== RESPONSIVIDADE ACESSÍVEL ===== */
+
+/* Breakpoints para diferentes tamanhos de fonte */
+@media (max-width: 768px) {
+  .font-size-user-xxlarge {
+    font-size: 1.75rem !important;
+  }
+  
+  .font-size-user-xlarge {
+    font-size: 1.375rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .font-size-user-xxlarge {
+    font-size: 1.5rem !important;
+  }
+  
+  .font-size-user-xlarge {
+    font-size: 1.25rem !important;
+  }
+}
+
+/* ===== UTILITÁRIOS DE ACESSIBILIDADE ===== */
+
+/* Visibilidade condicional */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.visually-visible {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  overflow: visible !important;
+  clip: auto !important;
+  white-space: normal !important;
+}
+
+/* Foco programático */
+.focus-visible {
+  outline: 3px solid var(--focus-aa) !important;
+  outline-offset: 2px !important;
+}
+
+/* ===== TESTES DE ACESSIBILIDADE ===== */
+
+/* Classes para testes de acessibilidade */
+.a11y-test {
+  /* Use estas classes para testar acessibilidade */
+}
+
+.a11y-test:focus {
+  outline: 3px solid #ff0000 !important;
+}
+
+.a11y-test:hover {
+  background: rgba(255, 0, 0, 0.1) !important;
+}
+
+/* ===== DOCUMENTAÇÃO DE USO ===== */
+
+/*
+  COMO USAR O SISTEMA DE ACESSIBILIDADE:
+  
+  1. CONTRASTE:
+     - Use as variáveis CSS --primary-aa, --secondary-aa, etc.
+     - Todas as cores têm contraste AA garantido
+     
+  2. FONTES DINÂMICAS:
+     - Adicione a classe .font-size-user-* ao body
+     - Use os controles de fonte para ajustar tamanho
+     
+  3. FOCUS:
+     - Todos os elementos interativos têm focus visível
+     - Use .custom-focus para elementos customizados
+     
+  4. LABELS:
+     - Use .form-label para labels visuais
+     - Use .sr-only para labels ocultos
+     - Use .required-label para campos obrigatórios
+     
+  5. BOTÕES:
+     - Use .btn-accessible para botões acessíveis
+     - Combine com variantes (.btn-primary, .btn-secondary, etc.)
+     
+  6. TABELAS:
+     - Use .table-accessible para tabelas acessíveis
+     - Sempre inclua <caption> para descrição
+     
+  7. IMAGENS:
+     - Use .img-decorative para imagens decorativas
+     - Use .img-informative para imagens informativas
+     - Sempre forneça alt text apropriado
+     
+  8. REDUÇÃO DE MOTION:
+     - O sistema respeita prefers-reduced-motion
+     - Use .animation-pausable para animações controláveis
+     
+  9. ALTO CONTRASTE:
+     - O sistema detecta prefers-contrast: high
+     - Ajusta automaticamente para alto contraste
+     
+  10. TOUCH:
+      - Use .touch-target para elementos interativos
+      - Use .touch-spacing para espaçamento adequado
+*/

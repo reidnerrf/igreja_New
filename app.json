@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "ConnectFe",
+    "slug": "connectfe",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.connectfe.app"
+    },
+    "android": {
+      "package": "com.connectfe.app",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "CAMERA",
+        "RECORD_AUDIO"
+      ]
+    },
+    "web": {},
+    "scheme": "connectfe",
+    "extra": {
+      "eas": {
+        "projectId": "CHANGE_ME"
+      },
+      "facebookAppId": "FB_APP_ID_PLACEHOLDER",
+      "facebookDisplayName": "ConnectFé"
+    },
+    "plugins": [
+      "expo-location",
+      "expo-camera",
+      "expo-av",
+      "expo-notifications"
+    ]
+  }
+}
