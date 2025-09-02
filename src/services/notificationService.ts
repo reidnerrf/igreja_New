@@ -17,6 +17,12 @@ class NotificationService {
   private expoPushToken: string | null = null;
 
   async initialize() {
+    // Expo Go no longer supports remote push with expo-notifications on Android in SDK 53
+    // Only attempt token registration in a dev client or production build
+    const isExpoGo = !Device.isDevice || (typeof __DEV__ !== 'undefined' && __DEV__ && !process.env.EXPO_DEV_CLIENT);
+    if (isExpoGo) {
+      return null;
+    }
     if (Device.isDevice) {
       const { status: existingStatus } = await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
@@ -31,7 +37,11 @@ class NotificationService {
         return null;
       }
       
-      this.expoPushToken = (await Notifications.getExpoPushTokenAsync()).data;
+      try {
+        this.expoPushToken = (await Notifications.getExpoPushTokenAsync()).data;
+      } catch (e) {
+        return null;
+      }
       await AsyncStorage.setItem('expo_push_token', this.expoPushToken);
       
       if (Platform.OS === 'android') {
