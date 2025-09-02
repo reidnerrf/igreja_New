@@ -59,35 +59,35 @@ export default function App() {
     setUserType(null);
   };
 
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
-
   return (
     <ThemeProvider>
       <AuthProvider>
-        <NavigationContainer>
-          <StatusBar style="auto" />
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            {!hasCompletedOnboarding ? (
-              <Stack.Screen name="Onboarding">
-                {() => <OnboardingScreen onComplete={handleOnboardingComplete} />}
-              </Stack.Screen>
-            ) : !isAuthenticated ? (
-              <Stack.Screen name="Login">
-                {() => <LoginScreen onLogin={handleLogin} />}
-              </Stack.Screen>
-            ) : userType === 'church' ? (
-              <Stack.Screen name="ChurchApp">
-                {() => <ChurchRootNavigator onLogout={handleLogout} />}
-              </Stack.Screen>
-            ) : (
-              <Stack.Screen name="UserApp">
-                {() => <UserRootNavigator onLogout={handleLogout} />}
-              </Stack.Screen>
-            )}
-          </Stack.Navigator>
-        </NavigationContainer>
+        {isLoading ? (
+          <LoadingScreen />
+        ) : (
+          <NavigationContainer>
+            <StatusBar style="auto" />
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+              {!hasCompletedOnboarding ? (
+                <Stack.Screen name="Onboarding">
+                  {() => <OnboardingScreen onComplete={handleOnboardingComplete} />}
+                </Stack.Screen>
+              ) : !isAuthenticated ? (
+                <Stack.Screen name="Login">
+                  {() => <LoginScreen onLogin={handleLogin} />}
+                </Stack.Screen>
+              ) : userType === 'church' ? (
+                <Stack.Screen name="ChurchApp">
+                  {() => <ChurchRootNavigator onLogout={handleLogout} />}
+                </Stack.Screen>
+              ) : (
+                <Stack.Screen name="UserApp">
+                  {() => <UserRootNavigator onLogout={handleLogout} />}
+                </Stack.Screen>
+              )}
+            </Stack.Navigator>
+          </NavigationContainer>
+        )}
       </AuthProvider>
     </ThemeProvider>
   );

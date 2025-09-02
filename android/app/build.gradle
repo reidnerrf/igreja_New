@@ -87,7 +87,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.connectfe"
+    namespace 'com.connectfe.app'
     defaultConfig {
         applicationId 'com.connectfe.app'
         minSdkVersion rootProject.ext.minSdkVersion
