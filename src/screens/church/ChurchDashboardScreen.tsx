@@ -10,12 +10,10 @@ import {
   View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { CartesianGrid, Cell, Line, LineChart, Pie, PieChart, XAxis, YAxis } from 'recharts';
 import { PremiumBadge } from '../../components/PremiumBadge';
 import { CreateAnnouncementModal } from '../../components/modals/CreateAnnouncementModal';
 import { CreateDonationModal } from '../../components/modals/CreateDonationModal';
 import { CreateEventModal } from '../../components/modals/CreateEventModal';
-import { ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from '../../components/ui/chart';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import { apiService } from '../../services/api';
@@ -469,33 +467,27 @@ export function ChurchDashboardScreen() {
             </View>
             <View style={{ backgroundColor: colors.card, borderRadius: 12, borderWidth: 1, borderColor: colors.border, padding: 12 }}>
               <Text style={{ color: colors.foreground, fontWeight: '600', marginBottom: 8 }}>Tendência</Text>
-              <ChartContainer id="analytics-line" config={{}}>
-                <LineChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="label" />
-                  <YAxis />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  {series.map(s => (
-                    <Line key={s.dataKey} type="monotone" dataKey={s.dataKey as any} name={s.name} stroke={s.stroke} dot={false} />
-                  ))}
-                  <ChartLegend content={<ChartLegendContent />} />
-                </LineChart>
-              </ChartContainer>
+              <View style={{ height: 160, flexDirection: 'row', alignItems: 'flex-end', gap: 8 }}>
+                {chartData.map((p: any) => (
+                  <View key={p.label} style={{ alignItems: 'center', flex: 1 }}>
+                    <View style={{ height: Math.max(8, Math.min(140, (p.attendance || 0) / 5)), backgroundColor: colors.primary, width: 10, borderRadius: 4 }} />
+                    <Text style={{ color: colors.mutedForeground, fontSize: 10, marginTop: 6 }}>{p.label}</Text>
+                  </View>
+                ))}
+              </View>
             </View>
 
             <View style={{ backgroundColor: colors.card, borderRadius: 12, borderWidth: 1, borderColor: colors.border, padding: 12, marginTop: 12 }}>
               <Text style={{ color: colors.foreground, fontWeight: '600', marginBottom: 8 }}>Distribuição</Text>
-              <ChartContainer id="analytics-pie" config={{}}>
-                <PieChart>
-                  <Pie data={pieData} dataKey="value" nameKey="name" outerRadius={80}>
-                    {pieData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.fill} />
-                    ))}
-                  </Pie>
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <ChartLegend content={<ChartLegendContent />} />
-                </PieChart>
-              </ChartContainer>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingVertical: 8 }}>
+                {pieData.map((s: any) => (
+                  <View key={s.name} style={{ alignItems: 'center' }}>
+                    <View style={{ width: 12, height: 12, borderRadius: 6, backgroundColor: s.fill, marginBottom: 6 }} />
+                    <Text style={{ color: colors.mutedForeground, fontSize: 12 }}>{s.name}</Text>
+                    <Text style={{ color: colors.foreground, fontWeight: '600' }}>{s.value}</Text>
+                  </View>
+                ))}
+              </View>
             </View>
           </View>
         )}
