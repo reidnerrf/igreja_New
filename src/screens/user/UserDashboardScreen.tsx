@@ -57,10 +57,10 @@ export function UserDashboardScreen() {
         date: new Date(e.date).toLocaleDateString(),
         image: 'https://images.unsplash.com/photo-1507692049790-de58290a4334?w=300&h=200&fit=crop'
       })));
-      const devo = await fetch(`${apiService['constructor']['API_BASE_URL'] || ''}` as any).catch(()=>null);
+      const devo = await fetch(`${apiServiceBase()}` as any).catch(()=>null);
     } catch {}
     try {
-      const devoRes = await fetch(`${apiService['constructor']['API_BASE_URL'] || ''}` as any).then(r=>r.json()).catch(()=>null as any);
+      const devoRes = await fetch(`${apiServiceBase()}` as any).then(r=>r.json()).catch(()=>null as any);
       if (devoRes?.text) setDailyVerse({ text: devoRes.text, reference: devoRes.gospel });
     } catch {}
     try {
@@ -432,4 +432,14 @@ export function UserDashboardScreen() {
       </ScrollView>
     </SafeAreaView>
   );
+}
+
+function apiServiceBase(): string {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const mod = require('../../services/api');
+    return mod.API_BASE_URL || '';
+  } catch {
+    return '';
+  }
 }

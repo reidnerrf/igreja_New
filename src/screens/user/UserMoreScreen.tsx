@@ -281,7 +281,7 @@ export function UserMoreScreen({ onLogout }: UserMoreScreenProps) {
         </TouchableOpacity>
       </ScrollView>
 
-      <PremiumModal visible={showPremiumModal} onClose={() => setShowPremiumModal(false)} onUpgrade={handlePremiumUpgrade} />
+      <PremiumModal visible={showPremiumModal} onClose={() => setShowPremiumModal(false)} onUpgrade={handlePremiumUpgrade} userType={'user'} />
     </SafeAreaView>
   );
 }

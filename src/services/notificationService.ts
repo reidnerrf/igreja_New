@@ -11,7 +11,9 @@ Notifications.setNotificationHandler({
     shouldShowAlert: true,
     shouldPlaySound: true,
     shouldSetBadge: true,
-  }),
+    shouldShowBanner: true,
+    shouldShowList: true,
+  } as any),
 });
 
 class NotificationService {
@@ -110,11 +112,7 @@ class NotificationService {
         data: { type: 'daily_devotional' },
         sound: 'default',
       },
-      trigger: {
-        hour,
-        minute,
-        repeats: true,
-      },
+      trigger: { type: 'timeInterval', seconds: Math.max(1, (hour * 3600 + minute * 60)), repeats: true } as any,
     });
   }
 

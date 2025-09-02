@@ -1,7 +1,11 @@
 import React, { useRef } from 'react';
-import { Animated, Pressable, ViewStyle } from 'react-native';
+import { Animated, Pressable, ViewStyle, PressableStateCallbackType } from 'react-native';
 
-type Props = React.ComponentProps<typeof Pressable> & { scale?: number; style?: ViewStyle };
+type Props = Omit<React.ComponentProps<typeof Pressable>, 'children'> & {
+  scale?: number;
+  style?: ViewStyle;
+  children?: React.ReactNode;
+};
 
 export function PressableScale({ scale = 0.97, style, children, ...props }: Props) {
   const anim = useRef(new Animated.Value(1)).current;

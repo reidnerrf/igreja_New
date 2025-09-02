@@ -18,8 +18,8 @@ import { apiService } from '../../services/api';
 export function UserMapScreen() {
   const { colors } = useTheme();
   const [searchText, setSearchText] = useState('');
-  const [userLocation, setUserLocation] = useState(null);
-  const [selectedChurch, setSelectedChurch] = useState(null);
+  const [userLocation, setUserLocation] = useState<any>(null);
+  const [selectedChurch, setSelectedChurch] = useState<any>(null);
   const [showChurchModal, setShowChurchModal] = useState(false);
   const [nextEvents, setNextEvents] = useState<any[]>([]);
 

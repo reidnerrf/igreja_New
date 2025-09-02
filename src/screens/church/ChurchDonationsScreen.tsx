@@ -48,17 +48,17 @@ export function ChurchDonationsScreen() {
   ]);
 
   const totalToday = donations
-    .filter(d => new Date(d.date).toDateString() === new Date().toDateString())
-    .reduce((sum, d) => sum + d.amount, 0);
+    .filter((d: any) => new Date(d.date).toDateString() === new Date().toDateString())
+    .reduce((sum: number, d: any) => sum + (Number(d.amount) || 0), 0);
 
   const totalMonth = donations
-    .filter(d => {
+    .filter((d: any) => {
       const donationDate = new Date(d.date);
       const now = new Date();
       return donationDate.getMonth() === now.getMonth() && 
              donationDate.getFullYear() === now.getFullYear();
     })
-    .reduce((sum, d) => sum + d.amount, 0);
+    .reduce((sum: number, d: any) => sum + (Number(d.amount) || 0), 0);
 
   const getMethodIcon = (method: string) => {
     switch (method) {

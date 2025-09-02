@@ -65,7 +65,7 @@ export function RaffleCard({ raffle, onPress, showChurchInfo = true }: RaffleCar
       return;
     }
 
-    if (!user?.isPremium && user?.userType === 'user') {
+    if (!user?.isPremium && user?.type === 'user') {
       Alert.alert(
         'Recurso Premium',
         'Participar de rifas é um recurso premium. Faça upgrade para participar!',
