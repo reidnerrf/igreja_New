@@ -5,14 +5,26 @@ export function useOfflineSync() {
   const syncingRef = useRef(false);
 
   useEffect(() => {
+    const canUseWindow = typeof window !== 'undefined' && typeof window.addEventListener === 'function';
+    const canCheckNavigator = typeof navigator !== 'undefined' && 'onLine' in navigator;
+
     const handler = () => {
-      if (navigator.onLine) {
+      if (!canCheckNavigator || (navigator as any).onLine) {
         flushQueue();
       }
     };
-    window.addEventListener('online', handler);
+
+    if (canUseWindow) {
+      window.addEventListener('online', handler);
+    }
+
     flushQueue();
-    return () => window.removeEventListener('online', handler);
+
+    return () => {
+      if (canUseWindow) {
+        window.removeEventListener('online', handler);
+      }
+    };
   }, []);
 
   const flushQueue = async () => {

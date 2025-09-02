@@ -1,4 +1,5 @@
 import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
 import * as Device from 'expo-device';
 import { Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -17,6 +18,12 @@ class NotificationService {
   private expoPushToken: string | null = null;
 
   async initialize() {
+    // Skip push token in web and Expo Go (SDK 53 removed push in Expo Go)
+    if (Platform.OS === 'web' || Constants?.appOwnership === 'expo') {
+      console.log('Pulando registro de push em Web/Expo Go');
+      return null;
+    }
+
     if (Device.isDevice) {
       const { status: existingStatus } = await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
