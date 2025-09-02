@@ -34,7 +34,8 @@
       "expo-location",
       "expo-camera",
       "expo-av",
-      "expo-notifications"
+      "expo-notifications",
+      "expo-barcode-scanner"
     ]
   }
 }

@@ -1,6 +1,6 @@
+import { Camera } from 'expo-camera';
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { BarCodeScanner } from 'expo-barcode-scanner';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useTheme } from '../../contexts/ThemeContext';
 import { apiService } from '../../services/api';
 
@@ -11,7 +11,7 @@ export function QRCheckinScreen({ navigation }: any) {
 
   React.useEffect(() => {
     (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      const { status } = await Camera.requestPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
   }, []);
@@ -40,7 +40,7 @@ export function QRCheckinScreen({ navigation }: any) {
 
   return (
     <View style={{ flex: 1 }}>
-      <BarCodeScanner
+      <Camera
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
