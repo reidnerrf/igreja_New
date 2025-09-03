@@ -36,7 +36,7 @@ export function LoginScreen({ onLogin }: LoginScreenProps) {
   const [isSignUp, setIsSignUp] = useState(false);
 
   const FB_APP_ID = process.env.FACEBOOK_APP_ID || 'FB_APP_ID_PLACEHOLDER';
-  const redirectUri = AuthSession.makeRedirectUri({ useProxy: true });
+  const redirectUri = AuthSession.makeRedirectUri();
   const [fbRequest, fbResponse, fbPromptAsync] = Facebook.useAuthRequest({
     clientId: FB_APP_ID,
     scopes: ['public_profile', 'email'],
@@ -63,7 +63,7 @@ export function LoginScreen({ onLogin }: LoginScreenProps) {
   const handleFacebookLogin = async () => {
     setIsLoading(true);
     try {
-      const result = await fbPromptAsync({ useProxy: true });
+      const result = await fbPromptAsync();
       if (!result || result.type !== 'success' || !(result as any).authentication?.accessToken) {
         throw new Error('cancelled');
       }

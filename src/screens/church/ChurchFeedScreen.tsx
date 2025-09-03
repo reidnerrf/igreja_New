@@ -37,10 +37,10 @@ export function ChurchFeedScreen() {
       </View>
       <ScrollView style={styles.content}>
         {posts.map((post: any) => (
-          <FeedCard key={post.id || post._id} post={post} />
+          <FeedCard key={post.id || post._id} post={post} onLike={()=>{}} onComment={()=>{}} onShare={()=>{}} />
         ))}
       </ScrollView>
-      <CreatePostModal visible={showModal} onClose={() => setShowModal(false)} onSubmit={async (data) => { await apiService.createPost({ ...data, scope: 'church' }); setShowModal(false); refetch(); }} />
+      <CreatePostModal visible={showModal} onClose={() => setShowModal(false)} onSubmit={async (data) => { await apiService.createPost({ ...data, scope: 'church' }); setShowModal(false); refetch(); }} userType={'church'} />
     </SafeAreaView>
   );
 }

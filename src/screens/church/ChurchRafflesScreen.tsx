@@ -38,8 +38,7 @@ export function ChurchRafflesScreen() {
   const startLiveDraw = async (raffleId: string) => {
     try {
       chatService.joinRaffle(raffleId);
-      const res = await fetch(`${apiService['constructor']['API_BASE_URL'] || ''}` as any).catch(()=>null);
-      const draw = await fetch(`${apiService['API_BASE_URL'] || ''}/raffles/${raffleId}/draw`, { method: 'POST', headers: { 'Content-Type': 'application/json' } }).catch(()=>null as any);
+      const draw = await fetch(`${apiServiceBase()}/raffles/${raffleId}/draw`, { method: 'POST', headers: { 'Content-Type': 'application/json' } }).catch(()=>null as any);
       // backend emitirá evento; UI ouvirá via socket
     } catch (e) {
       Alert.alert('Erro', 'Não foi possível iniciar o sorteio agora.');
@@ -88,7 +87,7 @@ export function ChurchRafflesScreen() {
         </View>
         {(raffles.length > 0 ? raffles : []).map((r: any) => (
           <View key={r.id || r._id}>
-            <RaffleCard raffle={r} />
+            <RaffleCard raffle={r} onPress={() => startLiveDraw(r._id || r.id)} />
             {user?.isPremium && (r.status==='active' || r.status==='sold_out') && (
               <TouchableOpacity style={styles.drawButton} onPress={() => startLiveDraw(r._id || r.id)}>
                 <Text style={{ color: 'white', fontWeight: '600' }}>Iniciar Sorteio ao Vivo</Text>
@@ -100,5 +99,14 @@ export function ChurchRafflesScreen() {
       <CreateRaffleModal visible={showModal} onClose={() => setShowModal(false)} onSubmit={async (data) => { await apiService.createRaffle(data); setShowModal(false); refetch(); }} />
     </SafeAreaView>
   );
+}
+
+function apiServiceBase(): string {
+  try {
+    const mod = require('../../services/api');
+    return mod.API_BASE_URL || '';
+  } catch {
+    return '';
+  }
 }
 

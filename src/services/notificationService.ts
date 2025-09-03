@@ -1,5 +1,6 @@
 import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
+import Constants from 'expo-constants';
 import { Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { API_BASE_URL } from './api';
@@ -10,14 +11,19 @@ Notifications.setNotificationHandler({
     shouldShowAlert: true,
     shouldPlaySound: true,
     shouldSetBadge: true,
-  }),
+    shouldShowBanner: true,
+    shouldShowList: true,
+  } as any),
 });
 
 class NotificationService {
   private expoPushToken: string | null = null;
 
   async initialize() {
-    if (Device.isDevice) {
+    // In Expo Go on SDK 53, getExpoPushTokenAsync is not supported. Guard to avoid runtime errors.
+    const appOwnership = (Constants as any)?.appOwnership ?? 'standalone';
+    const isRunningInExpoGo = appOwnership === 'expo';
+    if (Device.isDevice && !isRunningInExpoGo) {
       const { status: existingStatus } = await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
       
@@ -31,8 +37,16 @@ class NotificationService {
         return null;
       }
       
-      this.expoPushToken = (await Notifications.getExpoPushTokenAsync()).data;
-      await AsyncStorage.setItem('expo_push_token', this.expoPushToken);
+      try {
+        const tokenResponse = await Notifications.getExpoPushTokenAsync();
+        this.expoPushToken = (tokenResponse as any)?.data ?? null;
+        if (this.expoPushToken) {
+          await AsyncStorage.setItem('expo_push_token', this.expoPushToken);
+        }
+      } catch (e) {
+        // Swallow in Expo Go/unsupported contexts
+        console.log('Push token not available in this environment');
+      }
       
       if (Platform.OS === 'android') {
         Notifications.setNotificationChannelAsync('default', {
@@ -45,7 +59,7 @@ class NotificationService {
       
       return this.expoPushToken;
     } else {
-      console.log('Deve usar um dispositivo físico para notificações push');
+      console.log('Notificações push indisponíveis (Expo Go ou simulador)');
       return null;
     }
   }
@@ -98,11 +112,7 @@ class NotificationService {
         data: { type: 'daily_devotional' },
         sound: 'default',
       },
-      trigger: {
-        hour,
-        minute,
-        repeats: true,
-      },
+      trigger: { type: 'timeInterval', seconds: Math.max(1, (hour * 3600 + minute * 60)), repeats: true } as any,
     });
   }
 

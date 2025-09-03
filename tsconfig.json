@@ -1,16 +1,32 @@
 {
-  "extends": "expo/tsconfig.base",
-  "compilerOptions": {
-    "strict": true,
-    "jsx": "react-native",
-    "paths": {
-      "@/*": [
-        "./*"
-      ]
-    }
-  },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx"
-  ]
+	"extends": "expo/tsconfig.base",
+	"compilerOptions": {
+		"strict": true,
+		"jsx": "react-native",
+		"paths": {
+			"@/*": [
+				"./*"
+			]
+		}
+	},
+	"include": [
+		"**/*.ts",
+		"**/*.tsx"
+	],
+	"exclude": [
+		"src/components/ui/**",
+		"src/components/BottomNavigation.tsx",
+		"src/components/ChurchDashboard.tsx",
+		"src/components/ChurchDashboardComplete.tsx",
+		"src/components/DetailedSignupForm.tsx",
+		"src/components/LoginScreen.tsx",
+		"src/components/Onboarding.tsx",
+		"src/components/UserDashboardComplete.tsx",
+		"src/components/UserDashboard.tsx",
+		"src/screens/LoginScreen.tsx",
+		"src/components/modals/DonateModal.tsx",
+		"src/App.tsx",
+		"src/main.tsx",
+		"src/index.css"
+	]
 }

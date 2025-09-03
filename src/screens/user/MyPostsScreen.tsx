@@ -33,10 +33,24 @@ export function MyPostsScreen() {
       </View>
       <ScrollView style={styles.content}>
         {[1,2].map(i => (
-          <FeedCard key={i} post={{ id: String(i), author: 'Você', content: 'Compartilhando fé', likes: 3*i, comments: i }} />
+          <FeedCard
+            key={i}
+            post={{
+              id: String(i),
+              author: { name: 'Você', userType: 'user' },
+              content: 'Compartilhando fé',
+              createdAt: new Date().toISOString(),
+              likes: 3*i,
+              comments: i,
+              shares: 0,
+            }}
+            onLike={()=>{}}
+            onComment={()=>{}}
+            onShare={()=>{}}
+          />
         ))}
       </ScrollView>
-      <CreatePostModal visible={showModal} onClose={() => setShowModal(false)} onSubmit={() => setShowModal(false)} />
+      <CreatePostModal visible={showModal} onClose={() => setShowModal(false)} onSubmit={() => setShowModal(false)} userType={'user'} />
     </SafeAreaView>
   );
 }

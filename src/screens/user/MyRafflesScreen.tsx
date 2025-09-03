@@ -43,10 +43,29 @@ export function MyRafflesScreen() {
       </View>
       <ScrollView style={styles.content}>
         {[1].map(i => (
-          <RaffleCard key={i} raffle={{ id: String(i), title: `Rifa da Paróquia`, price: 20, totalNumbers: 200, soldNumbers: 50 }} />
+          <RaffleCard
+            key={i}
+            raffle={{
+              id: String(i),
+              title: `Rifa da Paróquia`,
+              prize: 'Cesta básica',
+              ticketPrice: 20,
+              totalTickets: 200,
+              soldTickets: 50,
+              endDate: new Date(Date.now() + 7*24*3600*1000).toISOString(),
+              church: { name: 'Paróquia São José' },
+              status: 'active'
+            }}
+            onPress={() => setBuyModal(true)}
+          />
         ))}
       </ScrollView>
-      <BuyRaffleTicketModal visible={buyModal} onClose={() => setBuyModal(false)} onSubmit={() => setBuyModal(false)} />
+      <BuyRaffleTicketModal
+        visible={buyModal}
+        onClose={() => setBuyModal(false)}
+        raffle={{ totalTickets: 200, soldNumbers: [1,2,3], ticketPrice: 20 }}
+        onPurchase={() => setBuyModal(false)}
+      />
     </SafeAreaView>
   );
 }

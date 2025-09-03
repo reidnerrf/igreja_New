@@ -25,7 +25,7 @@ export function ChurchPaymentsScreen() {
       </View>
       <ScrollView style={styles.content}>
         <Text style={styles.label}>Chave PIX</Text>
-        <TextInput value={pixKey} onChangeText={setPixKey} placeholder="Digite a chave PIX" placeholderTextColor={colors.mutedForeground} style={styles.input} onEndEditing={() => updateUser({ churchData: { ...(user?.churchData||{}), pixKey }})} />
+        <TextInput value={pixKey} onChangeText={setPixKey} placeholder="Digite a chave PIX" placeholderTextColor={colors.mutedForeground} style={styles.input} onEndEditing={() => updateUser({ churchData: { denomination: user?.churchData?.denomination || '', address: user?.churchData?.address || '', phone: user?.churchData?.phone || '', pixKey, instagram: user?.churchData?.instagram }})} />
         <Text style={styles.label}>Cartão (Stripe) - em breve</Text>
         <View style={{ backgroundColor: colors.card, padding: 16, borderRadius: 12, borderWidth: 1, borderColor: colors.border }}>
           <Text style={{ color: colors.mutedForeground }}>Integração de cartão será configurada posteriormente.</Text>
