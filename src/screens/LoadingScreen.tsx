@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
+import { Skeleton } from '../components/Skeleton';
 import { useTheme } from '../contexts/ThemeContext';
 
 export function LoadingScreen() {
@@ -21,6 +22,11 @@ export function LoadingScreen() {
       }}>
         Carregando ConnectFé...
       </Text>
+      <View style={{ width: '86%', marginTop: 20 }}>
+        <Skeleton height={16} style={{ marginBottom: 12 }} />
+        <Skeleton height={16} style={{ marginBottom: 12 }} />
+        <Skeleton height={16} />
+      </View>
     </View>
   );
 }

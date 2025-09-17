@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as ImageManipulator from 'expo-image-manipulator';
 
 // Vite/Expo web do not define __DEV__ at build-time the same way as React Native.
 // Prefer environment variable with sensible fallbacks for local dev.
@@ -313,9 +314,16 @@ class ApiService {
   }
 
   async uploadImage(imageUri: string, type: 'profile' | 'post' | 'event' | 'raffle') {
+    // Compress and resize before upload
+    const manipulated = await ImageManipulator.manipulateAsync(
+      imageUri,
+      [{ resize: { width: 1280 } }],
+      { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
+    );
+
     const formData = new FormData();
     formData.append('image', {
-      uri: imageUri,
+      uri: manipulated.uri,
       type: 'image/jpeg',
       name: `${type}_${Date.now()}.jpg`,
     } as any);

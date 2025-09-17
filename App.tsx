@@ -5,6 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { AuthProvider } from './src/contexts/AuthContext';
 import { ThemeProvider } from './src/contexts/ThemeContext';
+import { ToastProvider } from './src/contexts/ToastContext';
 import { useOfflineSync } from './src/hooks/useOfflineSync';
 import { ChurchRootNavigator } from './src/navigation/ChurchRootNavigator';
 import { UserRootNavigator } from './src/navigation/UserRootNavigator';
@@ -62,6 +63,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
+        <ToastProvider>
         {isLoading ? (
           <LoadingScreen />
         ) : (
@@ -88,6 +90,7 @@ export default function App() {
             </Stack.Navigator>
           </NavigationContainer>
         )}
+        </ToastProvider>
       </AuthProvider>
     </ThemeProvider>
   );
