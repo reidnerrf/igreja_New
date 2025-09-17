@@ -99,7 +99,6 @@ const churchPlanSchema = new mongoose.Schema({
 });
 
 // Índices
-churchPlanSchema.index({ slug: 1 });
 churchPlanSchema.index({ order: 1 });
 churchPlanSchema.index({ isActive: 1 });
 

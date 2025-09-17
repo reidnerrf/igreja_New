@@ -175,7 +175,7 @@ donationSchema.index({ method: 1, status: 1 });
 donationCampaignSchema.index({ church: 1, status: 1 });
 donationCampaignSchema.index({ endDate: 1, status: 1 });
 donationCampaignSchema.index({ category: 1, status: 1 });
-donationCampaignSchema.index({ slug: 1 }, { unique: true, sparse: true });
+// slug já é único pelo campo; não duplicar índice manual
 
 // Middleware para atualizar campanha quando doação é processada
 donationSchema.post('save', async function() {

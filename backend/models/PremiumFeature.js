@@ -94,7 +94,6 @@ const premiumFeatureSchema = new mongoose.Schema({
 });
 
 // Índices
-premiumFeatureSchema.index({ slug: 1 });
 premiumFeatureSchema.index({ category: 1 });
 premiumFeatureSchema.index({ order: 1 });
 premiumFeatureSchema.index({ isActive: 1 });

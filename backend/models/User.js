@@ -179,7 +179,6 @@ const userSchema = new mongoose.Schema({
 });
 
 // Índices
-userSchema.index({ email: 1 });
 userSchema.index({ userType: 1 });
 userSchema.index({ 'churchData.location': '2dsphere' });
 userSchema.index({ followedChurches: 1 });
