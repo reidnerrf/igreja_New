@@ -66,6 +66,37 @@
           "400": { "description": "Validation error" }
         }
       }
+    },
+    "/api/auth/refresh": {
+      "post": {
+        "summary": "Refresh access token",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "refreshToken": { "type": "string" }
+                },
+                "required": ["refreshToken"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "New tokens returned" },
+          "401": { "description": "Invalid/expired refresh token" }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "summary": "Logout (invalidate refresh)",
+        "responses": {
+          "200": { "description": "Logged out" }
+        }
+      }
     }
   }
 }

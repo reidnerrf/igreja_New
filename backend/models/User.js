@@ -154,6 +154,16 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: null
   },
+
+  // Sessão/Refresh token
+  refreshTokenId: {
+    type: String,
+    default: null
+  },
+  refreshTokenExpiresAt: {
+    type: Date,
+    default: null
+  },
   
   // Igrejas seguidas (apenas para usuários)
   followedChurches: [{
