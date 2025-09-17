@@ -2,6 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const swaggerUi = require('swagger-ui-express');
+const path = require('path');
+const openapi = require('./openapi.json');
 require('dotenv').config();
 
 const app = express();
@@ -33,6 +36,14 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use('/uploads', express.static('uploads'));
 
 // Rate limiting
+// Limite específico para rotas de autenticação por IP
+const authIpLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  message: { error: 'Muitas tentativas de autenticação, tente novamente mais tarde.' }
+});
+app.use('/api/auth', authIpLimiter);
+
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutos
   max: 100 // máximo 100 requests por IP por janela
@@ -89,6 +100,9 @@ app.use('/api/raffles', raffleComplianceRoutes);
 app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
+
+// Swagger Docs
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(openapi));
 
 // Middleware de tratamento de erros
 app.use((err, req, res, next) => {
