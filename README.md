@@ -9,3 +9,23 @@
 
   Run `npm run dev` to start the development server.
   
+  ### Backend (API) with Docker + MongoDB
+  
+  - Create a `.env` inside `backend/` based on `backend/.env.example`
+  - Start services:
+  
+  ```bash
+  docker compose up -d --build
+  ```
+  
+  - API health check: `http://localhost:3001/health`
+  - MongoDB: `mongodb://localhost:27017/connectfe`
+  
+  ### Run backend tests locally
+  
+  ```bash
+  cd backend
+  npm install
+  npm test
+  ```
+  

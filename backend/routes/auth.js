@@ -4,6 +4,7 @@ const User = require('../models/User');
 const { body, validationResult } = require('express-validator');
 
 const router = express.Router();
+const { authenticateToken } = require('../middleware/auth');
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
 // Middleware de validação

@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: connectfe-mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: connectfe
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: connectfe-api
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      MONGODB_URI: mongodb://mongo:27017/connectfe
+      JWT_SECRET: supersecret_dev
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mongo
+    volumes:
+      - ./backend/uploads:/app/uploads
+
+volumes:
+  mongo_data:
+
