@@ -10,6 +10,7 @@ require('dotenv').config();
 const app = express();
 const pino = require('pino')({ level: process.env.LOG_LEVEL || 'info' });
 const pinoHttp = require('pino-http')({ logger: pino });
+const client = require('prom-client');
 
 // Middleware
 app.use(helmet({
@@ -111,6 +112,26 @@ app.get('/health', (req, res) => {
 // Liveness/Readiness
 app.get('/livez', (req, res) => res.status(200).send('OK'));
 app.get('/readyz', (req, res) => res.status(200).send('OK'));
+
+// Prometheus metrics
+client.collectDefaultMetrics();
+const httpRequestDuration = new client.Histogram({
+  name: 'http_request_duration_seconds',
+  help: 'Duration of HTTP requests in seconds',
+  labelNames: ['method', 'route', 'code'],
+  buckets: [0.05, 0.1, 0.2, 0.5, 1, 3, 5]
+});
+app.use((req, res, next) => {
+  const end = httpRequestDuration.startTimer();
+  res.on('finish', () => {
+    end({ method: req.method, route: req.route?.path || req.path, code: res.statusCode });
+  });
+  next();
+});
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', client.register.contentType);
+  res.end(await client.register.metrics());
+});
 
 // Swagger Docs
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(openapi));

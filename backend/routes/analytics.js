@@ -11,6 +11,15 @@ const { getCache, setCache } = require('../services/cacheService');
 
 // Middleware de autenticação
 const { authenticateToken } = require('../middleware/auth');
+const pino = require('pino')();
+function requirePremiumChurch(req, res, next) {
+  try {
+    if (req.user?.userType !== 'church' || !req.user?.isPremium) {
+      return res.status(403).json({ error: 'Recurso premium requerido' });
+    }
+    next();
+  } catch (e) { return res.status(403).json({ error: 'Acesso negado' }); }
+}
 
 // Dashboard de qualidade dos modelos IA
 async function aiQualityHandler(req, res) {
@@ -66,7 +75,7 @@ async function aiQualityHandler(req, res) {
   }
 }
 
-router.get('/ai-quality', authenticateToken, aiQualityHandler);
+router.get('/ai-quality', authenticateToken, requirePremiumChurch, aiQualityHandler);
 
 // Obter métricas de recomendação
 async function getRecommendationMetrics(period) {
@@ -284,7 +293,7 @@ function getCommonSpamPatterns(classifications) {
 }
 
 // Compliance Analytics Routes
-router.get('/compliance', authenticateToken, async (req, res) => {
+router.get('/compliance', authenticateToken, requirePremiumChurch, async (req, res) => {
   try {
     const { period = '30d' } = req.query;
     const cacheKey = `compliance-analytics:${period}`;
@@ -327,12 +336,14 @@ router.get('/compliance', authenticateToken, async (req, res) => {
     // Cachear resultado por 15 minutos
     await setCache(cacheKey, responseData, 900);
 
-    res.json({
+    const payload = {
       success: true,
       period,
       ...responseData,
       cached: false
-    });
+    };
+    pino.info({ event: 'analytics_compliance_fetch', churchId: req.user.userId, period });
+    res.json(payload);
   } catch (error) {
     console.error('Erro ao obter métricas de compliance:', error);
     res.status(500).json({ error: 'Erro interno do servidor' });
@@ -340,7 +351,7 @@ router.get('/compliance', authenticateToken, async (req, res) => {
 });
 
 // Raffle Revenue and Conversion Analytics
-router.get('/raffle-revenue', authenticateToken, async (req, res) => {
+router.get('/raffle-revenue', authenticateToken, requirePremiumChurch, async (req, res) => {
   try {
     const { period = '30d' } = req.query;
     const cacheKey = `raffle-revenue:${period}`;
@@ -383,12 +394,14 @@ router.get('/raffle-revenue', authenticateToken, async (req, res) => {
     // Cachear resultado por 15 minutos
     await setCache(cacheKey, responseData, 900);
 
-    res.json({
+    const payload = {
       success: true,
       period,
       ...responseData,
       cached: false
-    });
+    };
+    pino.info({ event: 'analytics_revenue_fetch', churchId: req.user.userId, period });
+    res.json(payload);
   } catch (error) {
     console.error('Erro ao obter métricas de receita de rifas:', error);
     res.status(500).json({ error: 'Erro interno do servidor' });
