@@ -17,26 +17,23 @@ import { useTransmissions } from '../../hooks/useApi';
 import { SmartList } from '../../components/SmartList';
 import { CachedImage } from '../../components/CachedImage';
 import { apiService } from '../../services/api';
+import { PremiumModal } from '../../components/modals/PremiumModal';
+import { PremiumPaywallInline } from '../../components/PremiumBadge';
+import { openPaymentSheet } from '../../services/stripeService';
 
 export function ChurchTransmissionsScreen() {
   const { colors } = useTheme();
   const { user } = useAuth();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  const [showPremium, setShowPremium] = useState(false);
   
   const { data: transmissionsData, loading, error, refetch } = useTransmissions();
   const transmissions = transmissionsData || [];
 
   const handleCreateTransmission = () => {
     if (!user?.isPremium) {
-      Alert.alert(
-        'Recurso Premium',
-        'Transmissões nativas são um recurso premium. Faça upgrade para acessar.',
-        [
-          { text: 'Cancelar', style: 'cancel' },
-          { text: 'Ver Planos', onPress: () => console.log('Mostrar planos premium') }
-        ]
-      );
+      setShowPremium(true);
       return;
     }
     setShowCreateModal(true);
@@ -333,6 +330,9 @@ export function ChurchTransmissionsScreen() {
       </View>
 
       <View style={styles.content}>
+        {!user?.isPremium && (
+          <PremiumPaywallInline onPress={() => setShowPremium(true)} />
+        )}
         {transmissions.length > 0 ? (
           <SmartList
             data={transmissions}
@@ -380,6 +380,16 @@ export function ChurchTransmissionsScreen() {
           onClose={() => setSelectedVideo(null)}
         />
       )}
+
+      <PremiumModal
+        visible={showPremium}
+        onClose={() => setShowPremium(false)}
+        userType={'church'}
+        onUpgrade={async () => {
+          const res = await openPaymentSheet(49.9, 'ConnectFé Premium Igreja');
+          if (res.success) setShowPremium(false);
+        }}
+      />
     </SafeAreaView>
   );
 }
