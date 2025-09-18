@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../contexts/ThemeContext';
 import { FeedCard } from '../../components/FeedCard';
 import { CreatePostModal } from '../../components/modals/CreatePostModal';
+import { SmartList } from '../../components/SmartList';
 
 export function MyPostsScreen() {
   const { colors } = useTheme();
@@ -31,25 +32,29 @@ export function MyPostsScreen() {
           </TouchableOpacity>
         </View>
       </View>
-      <ScrollView style={styles.content}>
-        {[1,2].map(i => (
-          <FeedCard
-            key={i}
-            post={{
-              id: String(i),
-              author: { name: 'Você', userType: 'user' },
-              content: 'Compartilhando fé',
-              createdAt: new Date().toISOString(),
-              likes: 3*i,
-              comments: i,
-              shares: 0,
-            }}
-            onLike={()=>{}}
-            onComment={()=>{}}
-            onShare={()=>{}}
-          />
-        ))}
-      </ScrollView>
+      <View style={styles.content}>
+        <SmartList
+          data={[1,2] as any}
+          keyExtractor={(i: any) => String(i)}
+          renderItem={({ item }: any) => (
+            <FeedCard
+              post={{
+                id: String(item),
+                author: { name: 'Você', userType: 'user' },
+                content: 'Compartilhando fé',
+                createdAt: new Date().toISOString(),
+                likes: 3*item,
+                comments: item,
+                shares: 0,
+              }}
+              onLike={()=>{}}
+              onComment={()=>{}}
+              onShare={()=>{}}
+            />
+          )}
+          estimatedItemHeight={280}
+        />
+      </View>
       <CreatePostModal visible={showModal} onClose={() => setShowModal(false)} onSubmit={() => setShowModal(false)} userType={'user'} />
     </SafeAreaView>
   );
