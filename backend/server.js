@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
+const jwt = require('jsonwebtoken');
 const app = require('./app');
 const http = require('http').createServer(app);
 const { Server } = require('socket.io');
@@ -13,6 +14,23 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/connectfe
 })
 .then(() => console.log('Conectado ao MongoDB'))
 .catch(err => console.error('Erro ao conectar ao MongoDB:', err));
+// Socket authentication
+io.use((socket, next) => {
+  try {
+    const auth = socket.handshake.auth || {};
+    let token = auth.token || '';
+    if (typeof token === 'string' && token.startsWith('Bearer ')) {
+      token = token.replace('Bearer ', '');
+    }
+    if (!token) return next(new Error('Unauthorized'));
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
+    socket.user = { userId: decoded.userId, userType: decoded.userType };
+    return next();
+  } catch (e) {
+    return next(new Error('Unauthorized'));
+  }
+});
+
 // Socket.IO Chat
 const ChatMessage = require('./models/Chat');
 app.set('io', io);
@@ -21,8 +39,9 @@ io.on('connection', (socket) => {
     socket.join(room);
   });
   socket.on('message', async ({ room, userId, text }) => {
-    const msg = await ChatMessage.create({ room, sender: userId, text });
-    io.to(room).emit('message', { id: msg._id, room, sender: userId, text, createdAt: msg.createdAt });
+    const senderId = socket.user?.userId || userId;
+    const msg = await ChatMessage.create({ room, sender: senderId, text });
+    io.to(room).emit('message', { id: msg._id, room, sender: senderId, text, createdAt: msg.createdAt });
   });
 });
 

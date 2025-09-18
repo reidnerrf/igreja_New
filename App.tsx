@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { AuthProvider } from './src/contexts/AuthContext';
 import { ThemeProvider } from './src/contexts/ThemeContext';
 import { ToastProvider } from './src/contexts/ToastContext';
+import { I18nProvider } from './src/contexts/I18n';
 import { useOfflineSync } from './src/hooks/useOfflineSync';
 import { ChurchRootNavigator } from './src/navigation/ChurchRootNavigator';
 import { UserRootNavigator } from './src/navigation/UserRootNavigator';
@@ -63,7 +64,8 @@ export default function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <ToastProvider>
+        <I18nProvider>
+          <ToastProvider>
         {isLoading ? (
           <LoadingScreen />
         ) : (
@@ -90,7 +92,8 @@ export default function App() {
             </Stack.Navigator>
           </NavigationContainer>
         )}
-        </ToastProvider>
+          </ToastProvider>
+        </I18nProvider>
       </AuthProvider>
     </ThemeProvider>
   );

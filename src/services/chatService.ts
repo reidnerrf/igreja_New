@@ -5,10 +5,33 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 class ChatService {
   private socket: Socket | null = null;
 
-  connect() {
+  async connect() {
     if (!this.socket) {
       const base = API_BASE_URL.replace('/api','');
-      this.socket = io(base, { transports: ['websocket'] });
+      const token = await AsyncStorage.getItem('auth_token');
+      this.socket = io(base, {
+        transports: ['websocket'],
+        autoConnect: true,
+        reconnection: true,
+        reconnectionAttempts: Infinity,
+        reconnectionDelay: 500,
+        auth: { token: token ? `Bearer ${token}` : '' }
+      });
+
+      // Buffer de mensagens durante reconexão
+      const pending: any[] = [];
+      const emitOriginal = this.socket.emit.bind(this.socket);
+      this.socket.emit = ((event: string, ...args: any[]) => {
+        if (this.socket && this.socket.connected) return emitOriginal(event, ...args);
+        pending.push([event, ...args]);
+        return this.socket;
+      }) as any;
+      this.socket.on('connect', () => {
+        while (pending.length) {
+          const [evt, ...rest] = pending.shift();
+          emitOriginal(evt, ...rest);
+        }
+      });
     }
   }
 
@@ -38,9 +61,7 @@ class ChatService {
   }
 
   async send(room: string, text: string) {
-    const userData = await AsyncStorage.getItem('user_data');
-    const user = userData ? JSON.parse(userData) : null;
-    this.socket?.emit('message', { room, userId: user?.id, text });
+    this.socket?.emit('message', { room, text });
   }
 
   joinRaffle(raffleId: string) {
