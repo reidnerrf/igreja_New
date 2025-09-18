@@ -71,6 +71,7 @@ const recommendationsRoutes = require('./routes/recommendations');
 const moderationRoutes = require('./routes/moderation');
 const plansRoutes = require('./routes/plans');
 const raffleComplianceRoutes = require('./routes/raffle-compliance');
+const paymentsRoutes = require('./routes/payments');
 let premiumRoutes;
 try { premiumRoutes = require('./routes/premium'); } catch (_) { premiumRoutes = express.Router(); }
 
@@ -95,6 +96,7 @@ app.use('/api/events-ics', eventsIcsRoutes);
 app.use('/api/recommendations', recommendationsRoutes);
 app.use('/api/moderation', moderationRoutes);
 app.use('/api/raffles', raffleComplianceRoutes);
+app.use('/api/payments', paymentsRoutes);
 
 // Rota de health check
 app.get('/health', (req, res) => {
