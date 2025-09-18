@@ -4,13 +4,13 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  Image,
   Alert,
   Share
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
+import { CachedImage } from './CachedImage';
 
 interface FeedCardProps {
   post: {
@@ -201,7 +201,7 @@ export function FeedCard({ post, onLike, onComment, onShare }: FeedCardProps) {
       <View style={styles.header}>
         <View style={styles.avatar}>
           {post.author.profileImage ? (
-            <Image source={{ uri: post.author.profileImage }} style={styles.avatar} />
+            <CachedImage uri={post.author.profileImage} width={40} height={40} style={{ borderRadius: 20 }} />
           ) : (
             <View style={[styles.avatar, { justifyContent: 'center', alignItems: 'center' }]}>
               <Ionicons 
@@ -238,10 +238,9 @@ export function FeedCard({ post, onLike, onComment, onShare }: FeedCardProps) {
       {post.images && post.images.length > 0 && (
         <View style={styles.imagesContainer}>
           <View style={styles.imageWrapper}>
-            <Image 
-              source={{ uri: post.images[imageIndex] }} 
+            <CachedImage 
+              uri={post.images[imageIndex]}
               style={styles.postImage}
-              resizeMode="cover"
             />
             
             {post.images.length > 1 && (

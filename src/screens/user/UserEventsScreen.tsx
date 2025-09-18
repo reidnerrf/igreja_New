@@ -5,12 +5,12 @@ import {
   ScrollView,
   TouchableOpacity,
   StyleSheet,
-  FlatList,
-  Image,
   Alert
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { SmartList } from '../../components/SmartList';
+import { CachedImage } from '../../components/CachedImage';
 import { useTheme } from '../../contexts/ThemeContext';
 
 export function UserEventsScreen() {
@@ -262,7 +262,7 @@ export function UserEventsScreen() {
 
   const renderEventCard = ({ item }: { item: any }) => (
     <View style={styles.eventCard}>
-      <Image source={{ uri: item.image }} style={styles.eventImage} />
+      <CachedImage uri={item.image} style={styles.eventImage} />
       
       <View style={styles.eventContent}>
         <View style={styles.eventHeader}>
@@ -361,10 +361,11 @@ export function UserEventsScreen() {
 
       <View style={styles.content}>
         {events.length > 0 ? (
-          <FlatList
+          <SmartList
             data={events}
             renderItem={renderEventCard}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item: any) => item.id.toString()}
+            estimatedItemHeight={280}
             showsVerticalScrollIndicator={false}
           />
         ) : (

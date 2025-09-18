@@ -57,7 +57,7 @@ export function PremiumModal({ visible, onClose, userType, onUpgrade }: PremiumM
       overflow: 'hidden',
     },
     header: {
-      backgroundColor: `linear-gradient(135deg, ${colors.primary}, ${colors.gold})`,
+      backgroundColor: colors.primary,
       padding: 20,
       alignItems: 'center',
       position: 'relative',

@@ -4,6 +4,8 @@ const User = require('../models/User');
 const { body, validationResult } = require('express-validator');
 
 const router = express.Router();
+const { authenticateToken } = require('../middleware/auth');
+const crypto = require('crypto');
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
 // Middleware de validação
@@ -63,15 +65,28 @@ router.post('/register', validateRegistration, async (req, res) => {
     await user.save();
 
     // Gerar token
-    const token = jwt.sign(
+  const token = jwt.sign(
       { userId: user._id, userType: user.userType },
       JWT_SECRET,
       { expiresIn: '30d' }
     );
 
+  // Refresh token (rotativo)
+  const refreshTokenId = crypto.randomUUID();
+  user.refreshTokenId = refreshTokenId;
+  user.refreshTokenExpiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+  await user.save();
+
+  const refreshToken = jwt.sign(
+    { userId: user._id, jti: refreshTokenId },
+    JWT_SECRET,
+    { expiresIn: '30d' }
+  );
+
     res.status(201).json({
       success: true,
       token,
+      refreshToken,
       user: user.getPublicData()
     });
   } catch (error) {
@@ -109,9 +124,22 @@ router.post('/login', validateLogin, async (req, res) => {
       { expiresIn: '30d' }
     );
 
+    // Refresh token (rotativo)
+    const refreshTokenId = crypto.randomUUID();
+    await User.findByIdAndUpdate(user._id, {
+      refreshTokenId,
+      refreshTokenExpiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+    });
+    const refreshToken = jwt.sign(
+      { userId: user._id, jti: refreshTokenId },
+      JWT_SECRET,
+      { expiresIn: '30d' }
+    );
+
     res.json({
       success: true,
       token,
+      refreshToken,
       user: user.getPublicData()
     });
   } catch (error) {
@@ -190,6 +218,54 @@ router.get('/verify', async (req, res) => {
   } catch (error) {
     console.error('Erro na verificação do token:', error);
     res.status(401).json({ error: 'Token inválido' });
+  }
+});
+
+// Refresh token
+router.post('/refresh', async (req, res) => {
+  try {
+    const { refreshToken } = req.body;
+    if (!refreshToken) return res.status(400).json({ error: 'refreshToken é obrigatório' });
+
+    const decoded = jwt.verify(refreshToken, JWT_SECRET);
+    const user = await User.findById(decoded.userId);
+    if (!user || !user.refreshTokenId || user.refreshTokenId !== decoded.jti) {
+      return res.status(401).json({ error: 'Refresh token inválido' });
+    }
+    if (user.refreshTokenExpiresAt && user.refreshTokenExpiresAt < new Date()) {
+      return res.status(401).json({ error: 'Refresh token expirado' });
+    }
+
+    // Rotaciona refresh
+    const newJti = crypto.randomUUID();
+    user.refreshTokenId = newJti;
+    user.refreshTokenExpiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+    await user.save();
+
+    const newAccessToken = jwt.sign(
+      { userId: user._id, userType: user.userType },
+      JWT_SECRET,
+      { expiresIn: '30m' }
+    );
+    const newRefreshToken = jwt.sign(
+      { userId: user._id, jti: newJti },
+      JWT_SECRET,
+      { expiresIn: '30d' }
+    );
+
+    res.json({ success: true, token: newAccessToken, refreshToken: newRefreshToken });
+  } catch (error) {
+    return res.status(401).json({ error: 'Refresh token inválido' });
+  }
+});
+
+// Logout (invalida refresh atual)
+router.post('/logout', authenticateToken, async (req, res) => {
+  try {
+    await User.findByIdAndUpdate(req.user.userId, { refreshTokenId: null, refreshTokenExpiresAt: null });
+    res.json({ success: true });
+  } catch (e) {
+    res.status(500).json({ error: 'Erro interno do servidor' });
   }
 });
 

@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
-  ScrollView,
   TouchableOpacity,
-  StyleSheet,
-  FlatList
+  StyleSheet
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -14,6 +12,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { CreateDonationModal } from '../../components/modals/CreateDonationModal';
 import { useDonations } from '../../hooks/useApi';
 import { apiService } from '../../services/api';
+import { SmartList } from '../../components/SmartList';
 
 export function ChurchDonationsScreen() {
   const { colors } = useTheme();
@@ -409,65 +408,56 @@ export function ChurchDonationsScreen() {
         </View>
       </View>
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-        {/* Estatísticas */}
-        <View style={styles.statsContainer}>
-          <View style={styles.statsGrid}>
-            <View style={styles.statCard}>
-              <Text style={styles.statValue}>R$ {totalToday.toFixed(0)}</Text>
-              <Text style={styles.statLabel}>Hoje</Text>
-            </View>
-            <View style={styles.statCard}>
-              <Text style={styles.statValue}>R$ {totalMonth.toFixed(0)}</Text>
-              <Text style={styles.statLabel}>Este Mês</Text>
-            </View>
-          </View>
-        </View>
-
-        {/* Abas */}
-        <View style={styles.tabsContainer}>
-          <TouchableOpacity
-            style={[styles.tab, filter === 'donations' && styles.activeTab]}
-            onPress={() => setFilter('donations')}
-          >
-            <Text style={[
-              styles.tabText,
-              filter === 'donations' && styles.activeTabText
-            ]}>
-              Doações
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.tab, filter === 'campaigns' && styles.activeTab]}
-            onPress={() => setFilter('campaigns')}
-          >
-            <Text style={[
-              styles.tabText,
-              filter === 'campaigns' && styles.activeTabText
-            ]}>
-              Campanhas
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.listContainer}>
-          {filter === 'donations' ? (
-            <FlatList
-              data={donations}
-              renderItem={renderDonationCard}
-              keyExtractor={(item) => item.id.toString()}
-              scrollEnabled={false}
-            />
-          ) : (
-            <FlatList
-              data={campaigns}
-              renderItem={renderCampaignCard}
-              keyExtractor={(item) => item.id.toString()}
-              scrollEnabled={false}
-            />
+      <View style={styles.content}>
+        <SmartList
+          data={filter === 'donations' ? (donations as any) : (campaigns as any)}
+          keyExtractor={(item: any) => item.id.toString()}
+          renderItem={(args: any) => (filter === 'donations' ? renderDonationCard(args) : renderCampaignCard(args))}
+          estimatedItemHeight={filter === 'donations' ? 120 : 220}
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={(
+            <>
+              <View style={styles.statsContainer}>
+                <View style={styles.statsGrid}>
+                  <View style={styles.statCard}>
+                    <Text style={styles.statValue}>R$ {totalToday.toFixed(0)}</Text>
+                    <Text style={styles.statLabel}>Hoje</Text>
+                  </View>
+                  <View style={styles.statCard}>
+                    <Text style={styles.statValue}>R$ {totalMonth.toFixed(0)}</Text>
+                    <Text style={styles.statLabel}>Este Mês</Text>
+                  </View>
+                </View>
+              </View>
+              <View style={styles.tabsContainer}>
+                <TouchableOpacity
+                  style={[styles.tab, filter === 'donations' && styles.activeTab]}
+                  onPress={() => setFilter('donations')}
+                >
+                  <Text style={[
+                    styles.tabText,
+                    filter === 'donations' && styles.activeTabText
+                  ]}>
+                    Doações
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.tab, filter === 'campaigns' && styles.activeTab]}
+                  onPress={() => setFilter('campaigns')}
+                >
+                  <Text style={[
+                    styles.tabText,
+                    filter === 'campaigns' && styles.activeTabText
+                  ]}>
+                    Campanhas
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.listContainer} />
+            </>
           )}
-        </View>
-      </ScrollView>
+        />
+      </View>
 
       <CreateDonationModal
         visible={showCreateModal}

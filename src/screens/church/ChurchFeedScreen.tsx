@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../contexts/ThemeContext';
 import { FeedCard } from '../../components/FeedCard';
 import { CreatePostModal } from '../../components/modals/CreatePostModal';
 import { usePosts } from '../../hooks/useApi';
+import { SmartList } from '../../components/SmartList';
 import { apiService } from '../../services/api';
 
 export function ChurchFeedScreen() {
@@ -35,11 +36,16 @@ export function ChurchFeedScreen() {
           </TouchableOpacity>
         </View>
       </View>
-      <ScrollView style={styles.content}>
-        {posts.map((post: any) => (
-          <FeedCard key={post.id || post._id} post={post} onLike={()=>{}} onComment={()=>{}} onShare={()=>{}} />
-        ))}
-      </ScrollView>
+      <View style={styles.content}>
+        <SmartList
+          data={posts as any}
+          keyExtractor={(post: any) => String(post.id || post._id)}
+          renderItem={({ item }: any) => (
+            <FeedCard post={item} onLike={()=>{}} onComment={()=>{}} onShare={()=>{}} />
+          )}
+          estimatedItemHeight={320}
+        />
+      </View>
       <CreatePostModal visible={showModal} onClose={() => setShowModal(false)} onSubmit={async (data) => { await apiService.createPost({ ...data, scope: 'church' }); setShowModal(false); refetch(); }} userType={'church'} />
     </SafeAreaView>
   );

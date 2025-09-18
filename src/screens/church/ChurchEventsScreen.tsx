@@ -4,8 +4,7 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  StyleSheet,
-  FlatList
+  StyleSheet
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -14,6 +13,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { CreateEventModal } from '../../components/modals/CreateEventModal';
 import { useEvents } from '../../hooks/useApi';
 import { apiService } from '../../services/api';
+import { SmartList } from '../../components/SmartList';
 
 export function ChurchEventsScreen() {
   const { colors } = useTheme();
@@ -351,10 +351,11 @@ export function ChurchEventsScreen() {
 
       <View style={styles.content}>
         {events.length > 0 ? (
-          <FlatList
-            data={events}
-            renderItem={renderEventCard}
-            keyExtractor={(item) => item.id.toString()}
+          <SmartList
+            data={events as any}
+            renderItem={renderEventCard as any}
+            keyExtractor={(item: any) => item.id.toString()}
+            estimatedItemHeight={240}
             showsVerticalScrollIndicator={false}
           />
         ) : (

@@ -3,6 +3,14 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const { authenticateToken } = require('../middleware/auth');
+const pino = require('pino')();
+function enforcePremiumIfChurch(req, res, next) {
+  // Se for igreja, precisa ser premium para uploads múltiplos e maiores
+  if (req.user?.userType === 'church' && !req.user?.isPremium) {
+    return res.status(403).json({ error: 'Premium requerido para upload avançado' });
+  }
+  next();
+}
 
 const router = express.Router();
 
@@ -72,7 +80,7 @@ router.post('/', authenticateToken, upload.single('image'), async (req, res) => 
     const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
     
     // Retornar informações do arquivo
-    res.json({
+    const payload = {
       success: true,
       message: 'Arquivo enviado com sucesso',
       file: {
@@ -83,7 +91,9 @@ router.post('/', authenticateToken, upload.single('image'), async (req, res) => 
         url: fileUrl,
         path: req.file.path
       }
-    });
+    };
+    pino.info({ event: 'upload_image', userId: req.user.userId, size: req.file.size, mimetype: req.file.mimetype });
+    res.json(payload);
 
   } catch (error) {
     console.error('Erro no upload:', error);
@@ -128,7 +138,7 @@ router.post('/profile', authenticateToken, upload.single('profileImage'), async 
 });
 
 // Rota para upload de imagens de posts
-router.post('/post', authenticateToken, uploadMultiple.array('images', 10), async (req, res) => {
+router.post('/post', authenticateToken, enforcePremiumIfChurch, uploadMultiple.array('images', 10), async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: 'Nenhum arquivo foi enviado' });
@@ -146,11 +156,13 @@ router.post('/post', authenticateToken, uploadMultiple.array('images', 10), asyn
       };
     });
 
-    res.json({
+    const payload = {
       success: true,
       message: `${uploadedFiles.length} arquivo(s) enviado(s) com sucesso`,
       files: uploadedFiles
-    });
+    };
+    pino.info({ event: 'upload_post_images', userId: req.user.userId, files: uploadedFiles.length });
+    res.json(payload);
 
   } catch (error) {
     console.error('Erro no upload de post:', error);
@@ -162,7 +174,7 @@ router.post('/post', authenticateToken, uploadMultiple.array('images', 10), asyn
 });
 
 // Rota para upload de imagens de eventos
-router.post('/event', authenticateToken, uploadMultiple.array('images', 10), async (req, res) => {
+router.post('/event', authenticateToken, enforcePremiumIfChurch, uploadMultiple.array('images', 10), async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: 'Nenhum arquivo foi enviado' });
@@ -196,7 +208,7 @@ router.post('/event', authenticateToken, uploadMultiple.array('images', 10), asy
 });
 
 // Rota para upload de imagens de doações
-router.post('/donation', authenticateToken, uploadMultiple.array('images', 10), async (req, res) => {
+router.post('/donation', authenticateToken, enforcePremiumIfChurch, uploadMultiple.array('images', 10), async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: 'Nenhum arquivo foi enviado' });

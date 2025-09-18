@@ -5,6 +5,11 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { AuthProvider } from './src/contexts/AuthContext';
 import { ThemeProvider } from './src/contexts/ThemeContext';
+import { ToastProvider } from './src/contexts/ToastContext';
+import { I18nProvider } from './src/contexts/I18n';
+import { StripeProvider } from '@stripe/stripe-react-native';
+import { ConnectivityBanner } from './src/components/ConnectivityBanner';
+import { useConnectivity } from './src/hooks/useConnectivity';
 import { useOfflineSync } from './src/hooks/useOfflineSync';
 import { ChurchRootNavigator } from './src/navigation/ChurchRootNavigator';
 import { UserRootNavigator } from './src/navigation/UserRootNavigator';
@@ -16,6 +21,7 @@ const Stack = createStackNavigator();
 
 export default function App() {
   useOfflineSync();
+  const { isOnline } = useConnectivity('/health', 6000);
   const [isLoading, setIsLoading] = useState(true);
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -62,10 +68,14 @@ export default function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
+        <I18nProvider>
+          <StripeProvider publishableKey={process.env.EXPO_PUBLIC_STRIPE_PK || ''} merchantIdentifier="connectfe.app">
+            <ToastProvider>
         {isLoading ? (
           <LoadingScreen />
         ) : (
           <NavigationContainer>
+            <ConnectivityBanner isOnline={isOnline} />
             <StatusBar style="auto" />
             <Stack.Navigator screenOptions={{ headerShown: false }}>
               {!hasCompletedOnboarding ? (
@@ -88,6 +98,9 @@ export default function App() {
             </Stack.Navigator>
           </NavigationContainer>
         )}
+            </ToastProvider>
+          </StripeProvider>
+        </I18nProvider>
       </AuthProvider>
     </ThemeProvider>
   );

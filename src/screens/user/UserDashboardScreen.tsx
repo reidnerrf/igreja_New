@@ -13,6 +13,9 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { Card } from '../../components/Card';
+import { PremiumModal } from '../../components/modals/PremiumModal';
+import { PremiumPaywallInline } from '../../components/PremiumBadge';
+import { openPaymentSheet } from '../../services/stripeService';
 import { apiService } from '../../services/api';
 import { PressableScale } from '../../components/PressableScale';
 import { EmptyState } from '../../components/EmptyState';
@@ -25,6 +28,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export function UserDashboardScreen() {
   const { colors } = useTheme();
   const { user } = useAuth();
+  const [showPremium, setShowPremium] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [gamification, setGamification] = useState<{ points: number; badges: any[] } | null>(null);
   const [widgetPrefs, setWidgetPrefs] = useState<{ upcomingEvents: boolean; nextLive: boolean }>({ upcomingEvents: true, nextLive: true });
@@ -360,6 +364,8 @@ export function UserDashboardScreen() {
           </View>
         </View>
 
+        <PremiumPaywallInline onPress={() => setShowPremium(true)} />
+
         {/* Notas por voz (transcrição rápida) */}
         <Card>
           <Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.foreground, marginBottom: 8 }}>Nota Rápida por Voz</Text>
@@ -430,6 +436,16 @@ export function UserDashboardScreen() {
           </ScrollView>
         </Card>
       </ScrollView>
+
+      <PremiumModal
+        visible={showPremium}
+        onClose={() => setShowPremium(false)}
+        userType={'user'}
+        onUpgrade={async () => {
+          const res = await openPaymentSheet(19.9, 'ConnectFé Premium Usuário');
+          if (res.success) setShowPremium(false);
+        }}
+      />
     </SafeAreaView>
   );
 }

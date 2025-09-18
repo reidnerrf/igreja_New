@@ -9,11 +9,15 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useRaffles } from '../../hooks/useApi';
 import { apiService } from '../../services/api';
 import { chatService } from '../../services/chatService';
+import { PremiumModal } from '../../components/modals/PremiumModal';
+import { PremiumPaywallInline } from '../../components/PremiumBadge';
+import { openPaymentSheet } from '../../services/stripeService';
 
 export function ChurchRafflesScreen() {
   const { colors } = useTheme();
   const { user } = useAuth();
   const [showModal, setShowModal] = useState(false);
+  const [showPremium, setShowPremium] = useState(false);
   const { data: rafflesData, loading, error, refetch } = useRaffles({ scope: 'church' });
   const raffles = rafflesData || [];
 
@@ -28,10 +32,7 @@ export function ChurchRafflesScreen() {
   }, []);
 
   const openCreate = () => {
-    if (!user?.isPremium) {
-      Alert.alert('Recurso Premium', 'Faça upgrade para criar rifas.');
-      return;
-    }
+    if (!user?.isPremium) { setShowPremium(true); return; }
     setShowModal(true);
   };
 
@@ -75,6 +76,9 @@ export function ChurchRafflesScreen() {
         </View>
       </View>
       <ScrollView style={styles.content}>
+        {!user?.isPremium && (
+          <PremiumPaywallInline onPress={() => setShowPremium(true)} />
+        )}
         <View style={styles.stats}>
           <View style={styles.stat}>
             <Text style={styles.statValue}>R$ {totalRevenue.toLocaleString()}</Text>
@@ -97,6 +101,15 @@ export function ChurchRafflesScreen() {
         ))}
       </ScrollView>
       <CreateRaffleModal visible={showModal} onClose={() => setShowModal(false)} onSubmit={async (data) => { await apiService.createRaffle(data); setShowModal(false); refetch(); }} />
+      <PremiumModal
+        visible={showPremium}
+        onClose={() => setShowPremium(false)}
+        userType={'church'}
+        onUpgrade={async () => {
+          const res = await openPaymentSheet(49.9, 'ConnectFé Premium Igreja');
+          if (res.success) setShowPremium(false);
+        }}
+      />
     </SafeAreaView>
   );
 }

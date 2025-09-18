@@ -13,6 +13,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../contexts/ThemeContext';
 import { paymentService } from '../../services/paymentService';
+import { openPaymentSheet } from '../../services/stripeService';
 
 interface DonateModalProps {
   visible: boolean;
@@ -69,10 +70,13 @@ export function DonateModal({ visible, onClose, campaign, onSuccess }: DonateMod
           payerEmail: 'user@connectfe.com'
         });
       } else {
-        // Implementar pagamento com cartão
-        Alert.alert('Em Desenvolvimento', 'Pagamento com cartão será implementado em breve');
-        setIsProcessing(false);
-        return;
+        const sheet = await openPaymentSheet(amount, `Doação para ${campaign.title}`);
+        if (!sheet.success) {
+          Alert.alert('Pagamento não concluído', sheet.error || 'Tente novamente.');
+          setIsProcessing(false);
+          return;
+        }
+        paymentResult = { success: true, transactionId: `stripe_${Date.now()}` } as any;
       }
 
       if (paymentResult.success) {

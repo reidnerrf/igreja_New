@@ -5,7 +5,6 @@ import {
   ScrollView,
   TouchableOpacity,
   StyleSheet,
-  FlatList,
   Alert
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -15,27 +14,26 @@ import { useAuth } from '../../contexts/AuthContext';
 import { VideoPlayer } from '../../components/VideoPlayer';
 import { CreateTransmissionModal } from '../../components/modals/CreateTransmissionModal';
 import { useTransmissions } from '../../hooks/useApi';
+import { SmartList } from '../../components/SmartList';
+import { CachedImage } from '../../components/CachedImage';
 import { apiService } from '../../services/api';
+import { PremiumModal } from '../../components/modals/PremiumModal';
+import { PremiumPaywallInline } from '../../components/PremiumBadge';
+import { openPaymentSheet } from '../../services/stripeService';
 
 export function ChurchTransmissionsScreen() {
   const { colors } = useTheme();
   const { user } = useAuth();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  const [showPremium, setShowPremium] = useState(false);
   
   const { data: transmissionsData, loading, error, refetch } = useTransmissions();
   const transmissions = transmissionsData || [];
 
   const handleCreateTransmission = () => {
     if (!user?.isPremium) {
-      Alert.alert(
-        'Recurso Premium',
-        'Transmissões nativas são um recurso premium. Faça upgrade para acessar.',
-        [
-          { text: 'Cancelar', style: 'cancel' },
-          { text: 'Ver Planos', onPress: () => console.log('Mostrar planos premium') }
-        ]
-      );
+      setShowPremium(true);
       return;
     }
     setShowCreateModal(true);
@@ -235,17 +233,7 @@ export function ChurchTransmissionsScreen() {
         style={styles.thumbnailContainer}
         onPress={() => setSelectedVideo(item.url)}
       >
-        <View style={styles.thumbnail}>
-          {/* Placeholder para thumbnail */}
-          <View style={{ 
-            flex: 1, 
-            backgroundColor: colors.muted,
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}>
-            <Ionicons name="videocam" size={48} color={colors.mutedForeground} />
-          </View>
-        </View>
+        <CachedImage uri={item.thumbnail} style={styles.thumbnail} />
         
         {item.isLive && (
           <View style={styles.liveIndicator}>
@@ -342,11 +330,15 @@ export function ChurchTransmissionsScreen() {
       </View>
 
       <View style={styles.content}>
+        {!user?.isPremium && (
+          <PremiumPaywallInline onPress={() => setShowPremium(true)} />
+        )}
         {transmissions.length > 0 ? (
-          <FlatList
+          <SmartList
             data={transmissions}
             renderItem={renderTransmissionCard}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item: any) => item.id.toString()}
+            estimatedItemHeight={320}
             showsVerticalScrollIndicator={false}
           />
         ) : (
@@ -388,6 +380,16 @@ export function ChurchTransmissionsScreen() {
           onClose={() => setSelectedVideo(null)}
         />
       )}
+
+      <PremiumModal
+        visible={showPremium}
+        onClose={() => setShowPremium(false)}
+        userType={'church'}
+        onUpgrade={async () => {
+          const res = await openPaymentSheet(49.9, 'ConnectFé Premium Igreja');
+          if (res.success) setShowPremium(false);
+        }}
+      />
     </SafeAreaView>
   );
 }

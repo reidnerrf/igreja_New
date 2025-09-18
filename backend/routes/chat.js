@@ -1,10 +1,13 @@
 const express = require('express');
 const ChatMessage = require('../models/Chat');
-const { authenticateToken } = require('../middleware/auth');
+const { authenticateToken, createRateLimit } = require('../middleware/auth');
 
 const router = express.Router();
 
-router.get('/history', authenticateToken, async (req, res) => {
+// Limitar histórico por usuário: 60 req a cada 15 min
+const historyRateLimit = createRateLimit(15 * 60 * 1000, 60, 'Muitas requisições ao histórico');
+
+router.get('/history', authenticateToken, historyRateLimit, async (req, res) => {
   try {
     const { room, limit = 50, before } = req.query;
     if (!room) return res.status(400).json({ error: 'room obrigatório' });

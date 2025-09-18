@@ -2,8 +2,6 @@ import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import {
   Alert,
-  FlatList,
-  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -14,6 +12,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { VideoPlayer } from '../../components/VideoPlayer';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
+import { CachedImage } from '../../components/CachedImage';
+import { SmartList } from '../../components/SmartList';
 
 export function UserTransmissionsScreen() {
   const { colors } = useTheme();
@@ -322,7 +322,7 @@ export function UserTransmissionsScreen() {
         style={styles.thumbnailContainer}
         onPress={() => setSelectedVideo(item.url)}
       >
-        <Image source={{ uri: item.thumbnail }} style={styles.thumbnail} />
+        <CachedImage uri={item.thumbnail} style={styles.thumbnail} />
         
         {item.isLive && (
           <View style={styles.liveIndicator}>
@@ -455,10 +455,11 @@ export function UserTransmissionsScreen() {
 
       <View style={styles.content}>
         {filteredTransmissions.length > 0 ? (
-          <FlatList
+          <SmartList
             data={filteredTransmissions}
             renderItem={renderTransmissionCard}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item: any) => item.id.toString()}
+            estimatedItemHeight={340}
             showsVerticalScrollIndicator={false}
           />
         ) : (
