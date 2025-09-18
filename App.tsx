@@ -7,6 +7,7 @@ import { AuthProvider } from './src/contexts/AuthContext';
 import { ThemeProvider } from './src/contexts/ThemeContext';
 import { ToastProvider } from './src/contexts/ToastContext';
 import { I18nProvider } from './src/contexts/I18n';
+import { StripeProvider } from '@stripe/stripe-react-native';
 import { useOfflineSync } from './src/hooks/useOfflineSync';
 import { ChurchRootNavigator } from './src/navigation/ChurchRootNavigator';
 import { UserRootNavigator } from './src/navigation/UserRootNavigator';
@@ -65,7 +66,8 @@ export default function App() {
     <ThemeProvider>
       <AuthProvider>
         <I18nProvider>
-          <ToastProvider>
+          <StripeProvider publishableKey={process.env.EXPO_PUBLIC_STRIPE_PK || ''} merchantIdentifier="connectfe.app">
+            <ToastProvider>
         {isLoading ? (
           <LoadingScreen />
         ) : (
@@ -92,7 +94,8 @@ export default function App() {
             </Stack.Navigator>
           </NavigationContainer>
         )}
-          </ToastProvider>
+            </ToastProvider>
+          </StripeProvider>
         </I18nProvider>
       </AuthProvider>
     </ThemeProvider>
