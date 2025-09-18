@@ -5,6 +5,7 @@ const app = require('./app');
 const http = require('http').createServer(app);
 const { Server } = require('socket.io');
 const io = new Server(http, { cors: { origin: '*'} });
+const paymentsWebhook = require('./routes/payments-webhook');
 const PORT = process.env.PORT || 3001;
 
 // Conectar ao MongoDB

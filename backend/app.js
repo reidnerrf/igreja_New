@@ -8,6 +8,8 @@ const openapi = require('./openapi.json');
 require('dotenv').config();
 
 const app = express();
+const pino = require('pino')({ level: process.env.LOG_LEVEL || 'info' });
+const pinoHttp = require('pino-http')({ logger: pino });
 
 // Middleware
 app.use(helmet({
@@ -29,6 +31,7 @@ app.use(cors({
   },
   credentials: true
 }));
+app.use(pinoHttp);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
@@ -72,6 +75,7 @@ const moderationRoutes = require('./routes/moderation');
 const plansRoutes = require('./routes/plans');
 const raffleComplianceRoutes = require('./routes/raffle-compliance');
 const paymentsRoutes = require('./routes/payments');
+const paymentsWebhook = require('./routes/payments-webhook');
 let premiumRoutes;
 try { premiumRoutes = require('./routes/premium'); } catch (_) { premiumRoutes = express.Router(); }
 
@@ -97,11 +101,16 @@ app.use('/api/recommendations', recommendationsRoutes);
 app.use('/api/moderation', moderationRoutes);
 app.use('/api/raffles', raffleComplianceRoutes);
 app.use('/api/payments', paymentsRoutes);
+app.use('/webhooks', paymentsWebhook);
 
 // Rota de health check
 app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
+
+// Liveness/Readiness
+app.get('/livez', (req, res) => res.status(200).send('OK'));
+app.get('/readyz', (req, res) => res.status(200).send('OK'));
 
 // Swagger Docs
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(openapi));
