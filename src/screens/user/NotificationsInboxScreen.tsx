@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { useTheme } from '../../contexts/ThemeContext';
 import { apiService } from '../../services/api';
 import { EmptyState } from '../../components/EmptyState';
+import { SmartList } from '../../components/SmartList';
 
 export function NotificationsInboxScreen() {
   const { colors } = useTheme();
@@ -31,10 +32,11 @@ export function NotificationsInboxScreen() {
   }
 
   return (
-    <FlatList
+    <SmartList
       data={items}
-      keyExtractor={(item) => item._id}
-      renderItem={({ item }) => (
+      keyExtractor={(item: any) => item._id}
+      estimatedItemHeight={68}
+      renderItem={({ item }: any) => (
         <TouchableOpacity onPress={async () => { if (!item.readAt) { await apiService.markNotificationAsRead(item._id); load(); } }} style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: colors.border, backgroundColor: item.readAt ? colors.background : colors.card }}>
           <Text style={{ color: colors.foreground, fontWeight: '600' }}>{item.title}</Text>
           <Text style={{ color: colors.mutedForeground }}>{item.body}</Text>
